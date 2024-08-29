@@ -1,170 +1,123 @@
-<meta name="description" content="Hongsheng Wang&#39;s home page">
-<link rel="stylesheet" href="jemdoc.css" type="text/css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-<title>Hongsheng Wang's Homepage</title>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+    <meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" href="./css/jemdoc.css" type="text/css" />
+    <link rel="stylesheet" href="./css/zj.css" type="text/css" />
+    <title>CloCoder's Homepage</title>
+</head>
 
 <body>
-    <div id="layout-content" style="margin-top:25px">
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?f85ae40b6d54f8f7becb3b0be41d4515";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    <script>        let isEnglish = true;
 
-        <table>
-            <tbody>
-                <tr>
-                    <td width="670">
-                        <div id="toptitle">
-                            <h1>Hongshang Wang &nbsp; </h1>
+        function switchLanguage() {
+            const profileText = document.getElementById('profile-text');
+            const buttonText = document.getElementById('button-text');
+
+            if (isEnglish) {
+                profileText.innerHTML = `创始人王宏升是浙江大学博士，带领团队自研完全国产的 AI 训练和推理引擎，包括大模型分布式训练和推理工具。<br> <br>
+<strong>核心技术能力</strong>包括大模型在端侧设备的端-云协同部署，服务芯片厂商快速构建软件栈，完成商业版 AI 大模型端侧推理工具产品的交付。<strong>核心团队</strong>是一支以<strong>浙江大学</strong>作为技术源头的 AI Infra 研发团队，具备编译器和<strong>大模型推理引擎</strong>开发经验，作为核心成员参与过包括华为昇腾、燧原科技、寒武纪、等多款芯片的<strong>软件栈</strong>研发工作。`;
+buttonText.innerHTML = '中文';
+            } else {
+                profileText.innerHTML = `Founder Hongsheng Wang, who holds a Ph.D. from Zhejiang University, leads a team that has independently developed a fully domestic AI training and inference engine. This includes distributed training and inference tools specifically designed for large models.<br><br>The team's <strong>core technical</strong> strengths lie in the end-to-cloud collaborative deployment of large models on edge devices, enabling chip manufacturers to rapidly build software stacks and providing commercial AI large model inference tools for edge applications. Originating from <strong>Zhejiang University</strong>, the <strong>core team</strong> is a dedicated AI infrastructure R&D group with deep expertise in compiler and <strong>large model inference engine</strong> development. Key members have contributed to the development of <strong>software stacks</strong> for various chips, including Huawei Ascend, Tianshu Zhixin, and Cambricon.`;
+                buttonText.innerHTML = 'English';
+            }
+
+            isEnglish = !isEnglish;
+        }</script>
+
+
+    <table summary="Table for page layout." id="tlayout">
+        <tr valign="top">
+            <td id="layout-menu">
+                <div class="image-container">
+                    <h1><a href="yuanze.hrtop1.com">CloCoder</a></h1>
+                </div>
+                <div class="menu-item"><a href="index.html" class="current">Homepage</a></div>
+                <div class="menu-item"><a href="publication.html">Publications</a></div>
+                <div class="menu-item"><a href="honor.html">honor</a></div>
+            </td>
+            <br><br>
+            <td id="layout-content">
+                <h1>🏷️Company Profile <button onclick="switchLanguage()" id="button-text">Switch Language</button></h1>
+                <p id="profile-text">Founder Hongsheng Wang, who holds a Ph.D. from Zhejiang University, leads a team that has independently developed a fully domestic AI training and inference engine. This includes distributed training and inference tools specifically designed for large models. <br><br>The team's <strong>core technical</strong> strengths lie in the end-to-cloud collaborative deployment of large models on edge devices, enabling chip manufacturers to rapidly build software stacks and providing commercial AI large model inference tools for edge applications. Originating from <strong>Zhejiang University</strong>, the <strong>core team</strong> is a dedicated AI infrastructure R&D group with deep expertise in compiler and <strong>large model inference engine</strong> development. Key members have contributed to the development of <strong>software stacks</strong> for various chips, including Huawei Ascend, Tianshu Zhixin, and Cambricon.</p>
+                <div id="toptitle">
+                    <h1>🎉Core members</h1>
+                </div>
+                <table class="imgtable">
+                    <tr>
+                        <td style="text-align:center; padding-right: 30px;">
+                            <img src="./img/whs.jpg" alt="Hongsheng Wang's profile picture" height="412px" /><br>
+                            <p style="color: #01458e;"><b><a href="https:wanghongsheng01.github.io">Hongsheng
+                                        Wang</a></b></p>
+                            <p><b>Co-founder & CEO</b></p>
+                        </td>
+                        <td style="text-align:center; padding-right: 30px;">
+                            <img src="./img/xq.png" alt="Qiang Xiao's profile picture" height="412px" /><br>
+                            <p style="color: #01458e;"><b><a href="">Qiang Xiao</a> </b></p>
+                            <p><b>Co-founder & CTO</b></p>
+                        </td>
+                        <td style="text-align:center;">
+                            <img src="./img/xrz.jpg" alt="Your profile picture" height="412px" /><br>
+                            <p style="color: #01458e;"><b><a href="https:xinrui-z.github.io.com">Xinrui Zhou</a></b></p>
+                            <p><b>Co-founder & COO</b></p>
+                        </td>
+                    </tr>
+                </table>
+
+                <h1>🤝Key partners</h1>
+                <table class="imgtable">
+                    <tr>
+                        <td style="text-align:center; padding-right: 30px;">
+                            <img src="./img/lf.png" alt="Feng Lin's profile picture" height="412px" /><br>
+                            <p style="color: #01458e;"><b><a
+                                        href="https://www.annexpublishers.co/editorial-board/member/295/Lin-Feng-Journal-of-Computational-Systems-Biology/">Feng
+                                        Lin</a></b></p>
+                            <p><b>Professorial Research Scientist</b></p>
+                        </td>
+                        <td style="text-align:center; padding-right: 30px;">
+                            <img src="./img/wf.png" alt="Qiang Xiao's profile picture" height="412px" /><br>
+                            <p style="color: #01458e;"><b><a href="https://person.zju.edu.cn/en/wufei">Fei Wu</a></b>
+                            </p>
+                            <p><b>Qiushi distinguished professor</b></p>
+                        </td>
+                        <td style="text-align:center;">
+                            <img src="./img/zsy.jpg" alt="Your profile picture" height="412px" /><br>
+                            <p style="color: #01458e;"><b><a href="https://shengyuzhang.github.io/">Shengyu
+                                        Zhang</a></b></p>
+                            <p><b>ZJU-100 Young Professor</b></p>
+                        </td>
+                    </tr>
+                </table>
+                <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+
+
+                <table
+                    style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;">
+                    <tbody>
+                        <div id="footer">
+                            <div id="footer-text">
+                                Last modified in August 2024.
+                            </div>
                         </div>
-                        <!-- <h3>Graduate Student</h3> -->
-                        <br>
-                        <p>
-                            <i class="bi bi-telephone-fill"></i> (+86) 198-5718-7601 <br>
-                            <i class="bi bi-mailbox2"></i> <a
-                                href="mailto:wanghongsheng@zju.edu.cn">wanghongsheng@zju.edu.cn</a> <br>
-                            <i>Zhejiang University Young Professor</i><br>
-                            <i>The founder of Wending Hongru</i><br>
-                            <i>The founder & CEO of CloCoder</i>
-                        </p>
-                    </td>
-                    <td>
-                        <img src="whs.jpg" border="0" width="150">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h2>Research Focus</h2>
-        <p><strong>Human-centered computer vision and graphics</strong></p>
-        <ul>
-            <p>
-                <li>Biomedical informatics</li>
-            </p>
-            <p>
-                <li>Motion capture, reconstruction, rendering, and synthesis of digital humans</li>
-            </p>
-            <p>
-                <li>Person re-identification, metric learning</li>
-            </p>
-        </ul>
-        <p><strong>High-performance computing</strong></p>
-        <ul>
-            <p>
-                <li>Parallel computing, compilers, programming languages, and performance evaluation</li>
-            </p>
-
-        </ul>
-
-        <h2>Expertise</h2>
-        <ul>
-            <p>
-                <li>Deep learning frameworks (<strong><a href="https://github.com/Oneflow-Inc/oneflow"
-                            style="color: #EE7F2D;">OneFlow</a></strong>)</li>
-            </p>
-            <p>
-                <li>Software development (2 filed copyrights)</li>
-            </p>
-
-            <p>
-                <li><strong>National standard</strong> author ("<strong>Foundational and Domain Model End-Cloud
-                        Collaborative Computing</strong>")</li>
-            </p>
-            <p>
-                <li>Ph.D., Zhejiang University (supervised by Prof. <a href="https://person.zju.edu.cn/en/wufei"
-                        style="color: #EE7F2D;">Fei
-                        Wu</a> and Prof. <a
-                        href="https://www.annexpublishers.co/editorial-board/member/295/Lin-Feng-Journal-of-Computational-Systems-Biology/"
-                        style="color: #EE7F2D;">Lin
-                        Feng</a>)</li>
-            </p>
-            <p>
-                <li>M.S., National Laboratory of Pattern Recognition, Institute of Automation, Chinese Academy
-                    of
-                    Sciences (supervised by Prof. <a
-                        href="http://www.ia.cas.cn/sourcedb_ia_cas/cn/iaexpert/201505/t20150522_4360824.html"
-                        style="color: #EE7F2D;">Zhen
-                        Lei</a> and Prof. <a href="https://liaosc.wordpress.com/" style="color: #EE7F2D;">Shengcai
-                        Liao</a>)</li>
-            </p>
-            <p>
-                <li>Published nearly 20 papers in top conferences</li>
-            </p>
-            <p>
-                <li>Holds <strong>53 granted Chinese Patents</strong>, <strong>20 US PCT Patents</strong>, and
-                    <strong>4 Japanese PCT Patents</strong>
-                </li>
-            </p>
-
-        </ul>
-        <h2>Current Publication</h2>
-
-        <ol>
-            <li>
-                <a href="https://arxiv.org/abs/2405.12505">NOVA-3D: Non-overlapped Views for 3D Anime Character
-                    Reconstruction</a><br><strong>Wang, Hongsheng</strong> and Yao, Nanjie and Zhou, Xinrui and Zhang, Shengyu and Xu,
-                Huahao and Wu, Fei and Lin, Feng<br>Arxiv, 2024
-            </li>
-            <li>
-                <a href="https://arxiv.org/abs/2405.12477">	Gaussian Control with Hierarchical Semantic Graphs in 3D Human Recovery</a><br><strong>Wang, Hongsheng</strong>, Weiyue Zhang, Sihao Liu, Xinrui Zhou, Jing Li, Zhanyun Tang, Shengyu Zhang, Fei Wu, Feng Lin<br>Arxiv, 2024
-            </li>
-            <li><a href="https://arxiv.org/abs/2405.12806">MOSS: Motion-based 3D Clothed Human Synthesis from Monocular Video</a><br><strong>Wang, Hongsheng</strong>, Xiang Cai, Xi Sun, Jinhong Yue, Zhanyun Tang, Shengyu Zhang, Feng Lin, Fei Wu<br>Arxiv, 2024</li>
-            <li><a href="https://arxiv.org/abs/2405.13097">NieR: Normal-Based Lighting Scene Rendering</a><br><strong>Wang, Hongsheng</strong>, Yang Wang, Yalan Liu, Fayuan Hu, Shengyu Zhang, Fei Wu, Feng Lin<br>Arxiv, 2024</li>
-            <li><a href="https://arxiv.org/abs/2405.12724">RemoCap: Disentangled Representation Learning for Motion Capture</a><br><strong>Wang, Hongsheng</strong>, Lizao Zhang, Zhangnan Zhong, Shuolin Xu, Xinrui Zhou, Shengyu Zhang, Huahao Xu, Fei Wu, Feng Lin<br>Arxiv, 2024</li>
-            <li><a href="https://www.spiedigitallibrary.org/conference-proceedings-of-spie/13164/131642U/RehabGPT--a-MaaS-based-solution-to-large-model-building/10.1117/12.3019532.short">RehabGPT: a MaaS-based solution to large model building for digital rehabilitation</a><br><strong>Hongsheng Wang</strong>, Lin Feng<br>International Workshop on Advanced Imaging Technology (IWAIT) 2024</li>
-            <li><a href="https://openreview.net/forum?id=1GdAJ3GsOw">DISTPAR: TENSOR PARTITIONING FOR DISTRIBUTED NEURAL NETWORK COMPUTING</a><br><strong>Hongsheng Wang</strong>, Jinhui Yuan, Shun Liu, Weijie Xia, Xinyi Zhou, Shengyu Zhang, Fei Wu, Mohamed Jaward Bah, Feng Lin<br>ISCA, 2024</li>
-            <li><a href="https://ieeexplore.ieee.org/abstract/document/9967710">A Cooperative Flow Simulator for Distributed Computing Based on Full-Dimensional Definable Network</a><br>Yuan Liang, <strong>Hongsheng Wang</strong><br>4th International Conference on Data-driven Optimization of Complex Systems (DOCS), 2024</li>
-            <li><a href="https://ieeexplore.ieee.org/abstract/document/9901868">AutoDistiller: An Automatic Compression Method for Multi-task Language Models</a><br><strong>Wang, Hongsheng</strong>,  Geyang Xiao, and Yuan Liang<br>41st Chinese Control Conference (CCC), 2022</li>
-            <li><a href="https://link.springer.com/chapter/10.1007/978-3-030-31456-9_54">Similarity Scores Based Re-classification for Open-Set Person Re-identification</a><br><strong>Hongsheng Wang</strong>, Yang Yang, Zhen Lei<br>Chinese Conference on Biometric Recognition-14th, {CCBR}, 2019</li>
-            <li><a href="https://ieeexplore.ieee.org/abstract/document/8622014">Is Re-ranking Useful for Open-set Person Re-identification?</a><br><strong>Hongsheng Wang</strong>, Zhen Lei<br>2018 IEEE International Conference on Big Data (Big Data), 2018</li>
-            <li><a href="https://ieeexplore.ieee.org/abstract/document/8289496">Design of Transverse Field Sweeping System for W-band Gyrotron Collector</a><br><strong>Hongsheng Wang</strong> and Zhihui Geng<br>International Vacuum Electronics Conference {IVEC}, 2017</li>
-            <li><a href="https://www.tandfonline.com/doi/abs/10.1080/09205071.2017.1348996">Simulation of transverse field sweeping system and thermal analysis of an undepreesed collector for a gyrotron</a><br>Yaru Wang, <strong>Hongsheng Wang</strong><br>Journal of Electromagnetic Waves and Applications, 2017</li>
-        </ol>
-
-        <h2>Current Project</h2>
-        <ul>
-            <p>
-                <li>
-                    Efficient Training Paradigm and Experimental Verification for Large-Scale Distributed
-                    Artificial
-                    Intelligence (<strong>Science and Technology Innovation 2030</strong>-A New Generation of
-                    Artificial Intelligence Major project of the <strong>Ministry of Science and
-                        Technology</strong>)
-                </li>
-            </p>
-            <p>
-                <li>
-                    A Training-Oriented General-purpose AI Computing Chip (<strong>Ministry of Science and
-                        Technology</strong> high-quality development project)
-                </li>
-            </p>
-
-        </ul>
-
-        <h2>Additional Information</h2>
-        <ul>
-            <li>Pioneer in <strong><a href="https://github.com/Oneflow-Inc/oneflow"
-                        style="color: #EE7F2D;">OneFlow</a></strong>
-                development (an open-source deep learning framework, boasting a <strong>PyTorch</strong>-like
-                API for intuitive model programming and a community with over <strong>5,000</strong> 🌟 on
-                GitHub.)</li>
-            <li>Previously, I was a Principal Researcher and Team Lead at Baidu AI Lab, where I spent more
-                than 3 wonderful years, leading teams developing novel vision algorithms that are applied in
-                several products, <i>e.g.</i>, High-fidelity face generation APIs in Baidu and Talking Face
-                Generation
-                for digital human product. Also, our team conducted cutting-edge research works that are
-                published in top-tier AI conferences.</li>
-        </ul>
-
-
-        <div id="footer">
-            <div id="footer-text"></div>
-        </div>
-
-    </div>
-
-    <div style="width: 250px;">
-
-        <script type="text/javascript" id="clstr_globe"
-            src="//cdn.clustrmaps.com/globe.js?d=GFoM4b44zylDcbMlxOkhCEKGIU8cpx85-rxchJ1UEN4"></script>
-    </div>
-
-
-    Last updated on Aug. 28, 2024. <!--This page is still under construction.-->
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
+
+</html>
