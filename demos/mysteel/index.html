@@ -20,8 +20,8 @@
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             padding: 3rem;
-            max-width: 800px;
-            text-align: center;
+            max-width: 1000px;
+            width: 100%;
         }
         .back-link {
             display: inline-block;
@@ -35,11 +35,13 @@
             font-size: 2.5rem;
             margin-bottom: 1rem;
             color: #2c3e50;
+            text-align: center;
         }
         .subtitle {
             color: #7f8c8d;
             margin-bottom: 2rem;
             font-size: 1.1rem;
+            text-align: center;
         }
         .description {
             line-height: 1.8;
@@ -73,6 +75,23 @@
             font-weight: bold;
             font-size: 1.2rem;
         }
+        video {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin: 2rem 0;
+        }
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin-top: 2rem;
+            text-align: left;
+        }
+        .note p {
+            color: #856404;
+            margin: 0.5rem 0;
+        }
         .contact-box {
             background: #f8f9fa;
             border-radius: 15px;
@@ -89,17 +108,6 @@
         }
         .contact-item strong {
             color: #EE7F2D;
-        }
-        .note {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 1rem;
-            margin-top: 2rem;
-            text-align: left;
-        }
-        .note p {
-            color: #856404;
-            margin: 0;
         }
     </style>
 </head>
@@ -127,16 +135,22 @@
             </ul>
         </div>
 
+        <h3 style="color: #2c3e50; margin: 2rem 0 1rem 0;">产品演示视频</h3>
+        <video controls>
+            <source src="demo.mov" type="video/quicktime">
+            您的浏览器不支持视频播放
+        </video>
+
         <div class="note">
             <p>
-                📹 <strong>演示视频说明：</strong>
-                由于演示视频文件较大(105MB),超过GitHub Pages单文件限制，无法直接在线播放。
-                如需观看完整产品演示，请通过以下方式联系。
+                💡 <strong>注意：</strong>
+                视频文件较大(55MB),首次加载可能需要一些时间,请耐心等待。
+                如遇播放问题,请通过下方联系方式获取视频文件。
             </p>
         </div>
 
         <div class="contact-box">
-            <h3>📞 获取完整演示</h3>
+            <h3>📞 联系方式</h3>
             <div class="contact-item">
                 <strong>邮箱:</strong> wanghongsheng@zju.edu.cn
             </div>
@@ -146,9 +160,6 @@
             <div class="contact-item">
                 <strong>个人主页:</strong> <a href="https://wanghongsheng01.github.io/" style="color: #EE7F2D;">wanghongsheng01.github.io</a>
             </div>
-            <p style="margin-top: 1.5rem; color: #666;">
-                或扫描主页二维码添加微信，我将第一时间发送完整演示资料给您。
-            </p>
         </div>
     </div>
 </body>
