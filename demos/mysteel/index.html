@@ -3,230 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>上海钢联研报撰写数字员工 - 演示视频</title>
+    <title>上海钢联研报撰写数字员工 - 演示</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
-            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
-
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
             background: white;
             border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        h1 {
-            color: #2d3748;
-            margin-bottom: 10px;
-            font-size: 2.5em;
-        }
-
-        .subtitle {
-            color: #718096;
-            margin-bottom: 30px;
-            font-size: 1.2em;
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .back-link:hover {
-            text-decoration: underline;
-        }
-
-        .video-section {
-            margin-bottom: 50px;
-        }
-
-        .video-section h2 {
-            color: #2d3748;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #667eea;
-        }
-
-        .video-description {
-            color: #4a5568;
-            margin-bottom: 20px;
-            line-height: 1.8;
-        }
-
-        .warning-box {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-
-        .warning-box h3 {
-            color: #856404;
-            margin-bottom: 10px;
-        }
-
-        .warning-box p {
-            color: #856404;
-            line-height: 1.6;
-        }
-
-        .info-box {
-            background: #f7fafc;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            border-left: 4px solid #667eea;
-        }
-
-        .info-box ul {
-            margin-left: 20px;
-            margin-top: 10px;
-        }
-
-        .info-box li {
-            margin-bottom: 8px;
-            line-height: 1.6;
-        }
-
-        .btn-group {
-            margin-top: 30px;
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .contact-box {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            padding: 25px;
-            border-radius: 10px;
-            margin: 30px 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            padding: 3rem;
+            max-width: 800px;
             text-align: center;
         }
-
-        .contact-box h3 {
-            color: #1976d2;
-            margin-bottom: 15px;
-        }
-
-        .contact-box p {
-            color: #0d47a1;
-            font-size: 1.1em;
-        }
-
-        .contact-box a {
-            color: #0d47a1;
-            font-weight: 600;
+        .back-link {
+            display: inline-block;
+            color: #EE7F2D;
             text-decoration: none;
+            margin-bottom: 2rem;
+            font-weight: 600;
         }
-
-        .contact-box a:hover {
-            text-decoration: underline;
+        .back-link:hover { text-decoration: underline; }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        .subtitle {
+            color: #7f8c8d;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        .description {
+            line-height: 1.8;
+            color: #34495e;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        .features {
+            text-align: left;
+            margin: 2rem 0;
+        }
+        .features h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        .features ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .features li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: #555;
+        }
+        .features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #EE7F2D;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .contact-box {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        .contact-box h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        .contact-item {
+            margin: 1rem 0;
+            font-size: 1.1rem;
+        }
+        .contact-item strong {
+            color: #EE7F2D;
+        }
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin-top: 2rem;
+            text-align: left;
+        }
+        .note p {
+            color: #856404;
+            margin: 0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <a href="../../products.html#mysteel" class="back-link">← 返回产品展示页面</a>
-
+        <a href="../../portfolio.html" class="back-link">← 返回主页</a>
         <h1>上海钢联研报撰写数字员工</h1>
-        <p class="subtitle">大宗商品研报智能撰写系统演示</p>
+        <p class="subtitle">大宗商品智能研报系统</p>
 
-        <div class="video-section">
-            <h2>📊 研报撰写工具演示：日报 & 周报 & 月报</h2>
-            <p class="video-description">
-                本视频完整演示了上海钢联研报撰写数字员工系统的核心功能。展示了如何通过该系统自动生成大宗商品的日报、周报、月报，
-                以及如何基于"主导因子"分析模型提供清晰的价格趋势逻辑判断。
+        <div class="description">
+            <p>
+                大宗商品现货和期货研报自动撰写系统，作为上海钢联副总经理期间主导设计和落地的核心产品。
+                该系统基于数据驱动的分析模型，致力于大宗商品核心定价逻辑研究，构建可参数化、可配置、可扩展的分析框架。
             </p>
-
-            <div class="warning-box">
-                <h3>⚠️ 视频文件大小限制说明</h3>
-                <p>
-                    该演示视频文件大小为 <strong>105MB</strong>，略微超过GitHub Pages的单文件100MB限制。<br>
-                    由于文件大小限制，该演示视频暂不提供在线播放。
-                </p>
-            </div>
-
-            <div class="info-box">
-                <strong>视频演示内容包括：</strong>
-                <ul>
-                    <li><strong>可配置分析框架</strong> - 展示日报/周报/月报模板的配置和使用</li>
-                    <li><strong>数据驱动分析</strong> - 演示实时数据接入和处理流程</li>
-                    <li><strong>主导因子模型</strong> - 展示如何识别和跟踪驱动价格的关键因素</li>
-                    <li><strong>智能撰写引擎</strong> - 演示报告自动生成的完整流程</li>
-                    <li><strong>报告导出</strong> - 展示PDF/Word格式导出功能</li>
-                    <li><strong>房地产关联商品案例</strong> - 螺纹钢、热轧卷板等品种的实际分析演示</li>
-                </ul>
-            </div>
-
-            <div class="contact-box">
-                <h3>📧 获取完整演示视频</h3>
-                <p>如需观看完整演示视频，请联系：</p>
-                <p><a href="mailto:chaser.ming@gmail.com">chaser.ming@gmail.com</a></p>
-                <p>我会尽快将演示视频发送给您</p>
-            </div>
         </div>
 
-        <div class="video-section">
-            <h2>🎯 产品核心价值</h2>
-            <div class="info-box">
-                <strong>为上海钢联（上市公司，股票代码：300226）带来的价值：</strong>
-                <ul>
-                    <li><strong>提效</strong> - 研报撰写时间从数小时缩短到分钟级</li>
-                    <li><strong>准确</strong> - 数据驱动减少主观判断偏差</li>
-                    <li><strong>及时</strong> - 实时数据自动更新，快速响应市场变化</li>
-                    <li><strong>专业</strong> - 主导因子模型提供深度价格逻辑分析</li>
-                    <li><strong>标准化</strong> - 统一分析框架和报告格式</li>
-                </ul>
-            </div>
+        <div class="features">
+            <h3>核心功能</h3>
+            <ul>
+                <li>智能生成大宗商品日报、周报、月报</li>
+                <li>"主导因子"分析模型，精准甄别驱动价格的关键指标</li>
+                <li>动态跟踪指标轮动，如新开工面积、房企资金面等</li>
+                <li>基于价格指标数据仓库的数据驱动分析</li>
+                <li>可配置的分析框架和扩展模板系统</li>
+            </ul>
         </div>
 
-        <div class="video-section">
-            <h2>📸 平台截图</h2>
-            <p class="video-description">
-                平台界面截图和详细功能展示，请查看 platform 目录。
+        <div class="note">
+            <p>
+                📹 <strong>演示视频说明：</strong>
+                由于演示视频文件较大(105MB),超过GitHub Pages单文件限制，无法直接在线播放。
+                如需观看完整产品演示，请通过以下方式联系。
             </p>
-            <div class="info-box">
-                <p>如需查看平台详细截图和功能说明，请访问：<a href="./platform/" target="_blank">平台截图目录</a></p>
-            </div>
         </div>
 
-        <div class="btn-group">
-            <a href="../../products.html" class="btn btn-primary">📋 查看所有产品</a>
-            <a href="mailto:chaser.ming@gmail.com" class="btn btn-primary">✉️ 联系获取完整演示</a>
+        <div class="contact-box">
+            <h3>📞 获取完整演示</h3>
+            <div class="contact-item">
+                <strong>邮箱:</strong> wanghongsheng@zju.edu.cn
+            </div>
+            <div class="contact-item">
+                <strong>手机:</strong> 18813178291
+            </div>
+            <div class="contact-item">
+                <strong>个人主页:</strong> <a href="https://wanghongsheng01.github.io/" style="color: #EE7F2D;">wanghongsheng01.github.io</a>
+            </div>
+            <p style="margin-top: 1.5rem; color: #666;">
+                或扫描主页二维码添加微信，我将第一时间发送完整演示资料给您。
+            </p>
         </div>
     </div>
 </body>
