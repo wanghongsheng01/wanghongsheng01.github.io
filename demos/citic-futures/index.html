@@ -4,6 +4,21 @@
     <link rel="stylesheet" href="./assets/uni.b8118566.css">
 
     <meta charset="UTF-8" />
+
+    <!-- CRITICAL: Check and redirect FIRST before anything else -->
+    <script>
+      (function() {
+        var hash = window.location.hash;
+        // Check if we're on login page or root
+        if (!hash || hash === '#/' || hash === '#/pages/auth/login') {
+          // Immediately redirect - this happens before any Vue code runs
+          window.location.href = window.location.href.split('#')[0] + '#/pages/home/index';
+          // Stop all script execution
+          document.write('<style>html{display:none;}</style>');
+        }
+      })();
+    </script>
+
     <script>
       var coverSupport = 'CSS' in window && typeof CSS.supports === 'function' && (CSS.supports('top: env(a)') ||
         CSS.supports('top: constant(a)'))
@@ -17,17 +32,6 @@
     <!-- Tailwind & FontAwesome CDN -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-    <!-- Ultimate bypass script: redirect BEFORE app loads -->
-    <script>
-      (function() {
-        // IMMEDIATELY set hash to home page BEFORE anything else loads
-        if (window.location.hash === '' || window.location.hash === '#/' || window.location.hash === '#/pages/auth/login') {
-          console.log('[Bypass] Forcing redirect to home page');
-          window.location.replace(window.location.href.split('#')[0] + '#/pages/home/index');
-        }
-      })();
-    </script>
     <script type="module" crossorigin src="./assets/index-BWcxsYn8.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-CWHz2mCs.css">
   </head>
