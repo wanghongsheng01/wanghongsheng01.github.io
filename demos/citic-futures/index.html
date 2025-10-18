@@ -3,17 +3,25 @@
   <head>
     <meta charset="UTF-8" />
 
-    <!-- Force redirect using meta refresh - happens BEFORE any JS -->
+    <!-- Immediately redirect to home if accessing login page -->
     <script>
-      // Check hash IMMEDIATELY and inject meta refresh if needed
-      var hash = window.location.hash;
-      if (!hash || hash === '#/' || hash === '#/pages/auth/login') {
-        // Use meta refresh for instant redirect (faster than JS)
-        document.write('<meta http-equiv="refresh" content="0; url=' +
-          window.location.href.split('#')[0] + '#/pages/home/index' + '">');
-        // Hide page during redirect
-        document.write('<style>html{opacity:0;}</style>');
-      }
+      (function() {
+        var hash = window.location.hash;
+        var targetHash = '#/pages/home/index';
+
+        // If on root, login page, or no hash, redirect immediately
+        if (!hash || hash === '#/' || hash === '#/pages/auth/login') {
+          // Replace history state completely
+          if (window.history && window.history.replaceState) {
+            window.history.replaceState(null, '', targetHash);
+          } else {
+            window.location.replace(window.location.pathname + targetHash);
+          }
+
+          // Also set the hash directly as a fallback
+          window.location.hash = targetHash;
+        }
+      })();
     </script>
 
     <link rel="stylesheet" href="./assets/uni.b8118566.css">
