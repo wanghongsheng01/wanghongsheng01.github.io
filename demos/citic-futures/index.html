@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="./assets/uni.b8118566.css">
-
     <meta charset="UTF-8" />
 
-    <!-- CRITICAL: Check and redirect FIRST before anything else -->
+    <!-- Force redirect using meta refresh - happens BEFORE any JS -->
     <script>
-      (function() {
-        var hash = window.location.hash;
-        // Check if we're on login page or root
-        if (!hash || hash === '#/' || hash === '#/pages/auth/login') {
-          // Immediately redirect - this happens before any Vue code runs
-          window.location.href = window.location.href.split('#')[0] + '#/pages/home/index';
-          // Stop all script execution
-          document.write('<style>html{display:none;}</style>');
-        }
-      })();
+      // Check hash IMMEDIATELY and inject meta refresh if needed
+      var hash = window.location.hash;
+      if (!hash || hash === '#/' || hash === '#/pages/auth/login') {
+        // Use meta refresh for instant redirect (faster than JS)
+        document.write('<meta http-equiv="refresh" content="0; url=' +
+          window.location.href.split('#')[0] + '#/pages/home/index' + '">');
+        // Hide page during redirect
+        document.write('<style>html{opacity:0;}</style>');
+      }
     </script>
+
+    <link rel="stylesheet" href="./assets/uni.b8118566.css">
 
     <script>
       var coverSupport = 'CSS' in window && typeof CSS.supports === 'function' && (CSS.supports('top: env(a)') ||
