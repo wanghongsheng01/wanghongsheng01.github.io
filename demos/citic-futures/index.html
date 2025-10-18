@@ -17,6 +17,25 @@
     <!-- Tailwind & FontAwesome CDN -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- Auto-login script: bypass login page and go directly to home -->
+    <script>
+      (function() {
+        // Set mock authentication data in localStorage before app loads
+        var mockToken = 'demo-token-' + Date.now();
+        var mockUserId = 'demo-user-001';
+        var mockMobile = '13800138000';
+
+        localStorage.setItem('token', mockToken);
+        localStorage.setItem('userId', mockUserId);
+        localStorage.setItem('userMobile', mockMobile);
+
+        // If we're on the login page, redirect to home
+        if (window.location.hash === '' || window.location.hash === '#/' || window.location.hash === '#/pages/auth/login') {
+          window.location.hash = '#/pages/home/index';
+        }
+      })();
+    </script>
     <script type="module" crossorigin src="./assets/index-BWcxsYn8.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-CWHz2mCs.css">
   </head>
