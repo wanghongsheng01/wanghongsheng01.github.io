@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JTBD AI Agent v1.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <style>
+        .audio-progress {
+            background: linear-gradient(45deg, #1e40af, #3b82f6);
+            background-size: 20px 20px;
+            animation: progress-bar-stripes 1s linear infinite;
+        }
+        @keyframes progress-bar-stripes {
+            0% {
+                background-position: 0 0;
+            }
+            100% {
+                background-position: 20px 0;
+            }
+        }
+        .highlight {
+            background-color: #fef3c7;
+            border-radius: 4px;
+            padding: 2px 4px;
+            transition: all 0.3s ease;
+        }
+        .highlight:hover {
+            background-color: #fcd34d;
+            cursor: pointer;
+        }
+        .timeline-marker {
+            background: #1e40af;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            position: relative;
+        }
+        .timeline-marker::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+        }
+        .reference-link {
+            color: #1d4ed8;
+            text-decoration: none;
+            padding: 1px 3px;
+            border-radius: 3px;
+            background-color: #dbeafe;
+            border: 1px solid #93c5fd;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .reference-link:hover {
+            background-color: #bfdbfe;
+            border-color: #60a5fa;
+        }
+        .popover {
+            background: white;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            z-index: 50;
+            max-width: 400px;
+        }
+        .accordion {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .accordion-item {
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+        .accordion-header {
+            background-color: #f9fafb;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .accordion-header:hover {
+            background-color: #f3f4f6;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .accordion-content.open {
+            max-height: 500px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50" x-data="jtbdApp()">
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-sm border-b">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-xl font-bold text-gray-900">JTBD AI Agent</h1>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-500">v1.0 updated on 25 Sep 2025</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主容器 -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <!-- 页面切换标签 -->
+        <div class="mb-6">
+            <div class="border-b border-gray-200">
+                <nav class="-mb-px flex space-x-8">
+                    <button @click="currentPage = 'dashboard'" 
+                            :class="currentPage === 'dashboard' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                            class="whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm">
+                        项目仪表板
+                    </button>
+                    <button @click="currentPage = 'upload'" 
+                            :class="currentPage === 'upload' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                            class="whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm">
+                        新建分析
+                    </button>
+                    <button @click="currentPage = 'analysis'" 
+                            :class="currentPage === 'analysis' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                            class="whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm">
+                        分析结果
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- 项目仪表板页面 -->
+        <div x-show="currentPage === 'dashboard'" class="space-y-6">
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-gray-900">Portfolio Dashboard</h2>
+                <button @click="currentPage = 'upload'" 
+                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    新建分析
+                </button>
+            </div>
+            
+            <!-- 最近分析历史列表 -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900">最近分析历史</h3>
+                </div>
+                <div class="divide-y divide-gray-200">
+                    <div class="px-6 py-4 hover:bg-gray-50 cursor-pointer" @click="currentPage = 'analysis'">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center">
+                                    <div class="h-2 w-2 bg-green-500 rounded-full mr-3"></div>
+                                    <h4 class="text-sm font-medium text-gray-900">客户访谈-景高府案例</h4>
+                                </div>
+                                <div class="mt-1 text-sm text-gray-500">
+                                    <span>采访日期: 2025-09-03</span>
+                                    <span class="mx-2">•</span>
+                                    <span>受访者: 张先生</span>
+                                    <span class="mx-2">•</span>
+                                    <span>分析完成</span>
+                                </div>
+                            </div>
+                            <div class="text-sm text-gray-400">
+                                09-03 14:30
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="px-6 py-4 hover:bg-gray-50 cursor-pointer">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center">
+                                    <div class="h-2 w-2 bg-green-500 rounded-full mr-3"></div>
+                                    <h4 class="text-sm font-medium text-gray-900">用户体验调研-A项目</h4>
+                                </div>
+                                <div class="mt-1 text-sm text-gray-500">
+                                    <span>采访日期: 2025-09-02</span>
+                                    <span class="mx-2">•</span>
+                                    <span>受访者: 李女士</span>
+                                    <span class="mx-2">•</span>
+                                    <span>分析完成</span>
+                                </div>
+                            </div>
+                            <div class="text-sm text-gray-400">
+                                09-02 16:15
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="px-6 py-4 hover:bg-gray-50 cursor-pointer">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center">
+                                    <div class="h-2 w-2 bg-yellow-500 rounded-full mr-3"></div>
+                                    <h4 class="text-sm font-medium text-gray-900">产品反馈分析-B项目</h4>
+                                </div>
+                                <div class="mt-1 text-sm text-gray-500">
+                                    <span>采访日期: 2025-09-01</span>
+                                    <span class="mx-2">•</span>
+                                    <span>受访者: 王经理</span>
+                                    <span class="mx-2">•</span>
+                                    <span>分析中</span>
+                                </div>
+                            </div>
+                            <div class="text-sm text-gray-400">
+                                09-01 10:20
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="px-6 py-4 hover:bg-gray-50 cursor-pointer">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center">
+                                    <div class="h-2 w-2 bg-green-500 rounded-full mr-3"></div>
+                                    <h4 class="text-sm font-medium text-gray-900">市场调研-C项目</h4>
+                                </div>
+                                <div class="mt-1 text-sm text-gray-500">
+                                    <span>采访日期: 2025-08-30</span>
+                                    <span class="mx-2">•</span>
+                                    <span>受访者: 赵总</span>
+                                    <span class="mx-2">•</span>
+                                    <span>分析完成</span>
+                                </div>
+                            </div>
+                            <div class="text-sm text-gray-400">
+                                08-30 09:45
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="px-6 py-4 hover:bg-gray-50 cursor-pointer">
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center">
+                                    <div class="h-2 w-2 bg-green-500 rounded-full mr-3"></div>
+                                    <h4 class="text-sm font-medium text-gray-900">用户行为分析-D项目</h4>
+                                </div>
+                                <div class="mt-1 text-sm text-gray-500">
+                                    <span>采访日期: 2025-08-28</span>
+                                    <span class="mx-2">•</span>
+                                    <span>受访者: 陈女士</span>
+                                    <span class="mx-2">•</span>
+                                    <span>分析完成</span>
+                                </div>
+                            </div>
+                            <div class="text-sm text-gray-400">
+                                08-28 15:30
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 新建分析页面 -->
+        <div x-show="currentPage === 'upload'" class="max-w-2xl mx-auto">
+            <div class="bg-white rounded-lg shadow p-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl font-bold text-gray-900">新建JTBD分析</h2>
+                    <p class="text-gray-600 mt-2">上传音频或文本文件进行用户访谈分析</p>
+                </div>
+
+                <form class="space-y-6">
+                    <!-- 受访项目和采访日期放在前面 -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">受访项目</label>
+                        <input type="text" 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                               placeholder="请输入受访项目名称">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">采访日期</label>
+                        <input type="date" 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">受访者</label>
+                        <input type="text" 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                               placeholder="请输入受访者信息">
+                    </div>
+
+                    <!-- 音频记录上传区域 -->
+                    <div class="border border-gray-300 rounded-lg p-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-3">音频记录</label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
+                            </svg>
+                            <div class="mt-4">
+                                <label class="cursor-pointer">
+                                    <span class="mt-2 block text-sm font-medium text-gray-900">
+                                        点击上传音频文件或拖拽到此处
+                                    </span>
+                                    <span class="mt-1 block text-sm text-gray-500">
+                                        支持 MP3, WAV, M4A 格式
+                                    </span>
+                                    <input type="file" class="hidden" accept="audio/*">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 文本记录上传区域 -->
+                    <div class="border border-gray-300 rounded-lg p-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-3">文本记录</label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <div class="mt-4">
+                                <label class="cursor-pointer">
+                                    <span class="mt-2 block text-sm font-medium text-gray-900">
+                                        点击上传文本文件或拖拽到此处
+                                    </span>
+                                    <span class="mt-1 block text-sm text-gray-500">
+                                        支持 TXT, DOC, DOCX 格式
+                                    </span>
+                                    <input type="file" class="hidden" accept=".txt,.doc,.docx">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">其他备注</label>
+                        <textarea rows="4" 
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                  placeholder="请输入其他备注信息"></textarea>
+                    </div>
+
+                    <div class="flex justify-center">
+                        <button type="button" 
+                                @click="startAnalysis()"
+                                class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                            创建并分析
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+        <!-- 分析结果页面 -->
+        <div x-show="currentPage === 'analysis'" class="space-y-6">
+            <!-- 顶部信息栏 -->
+            <div class="bg-white rounded-lg shadow">
+                <div class="px-6 py-4 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center flex-1">
+                            <button @click="currentPage = 'dashboard'" class="text-gray-600 hover:text-gray-900 mr-4">
+                                ←
+                            </button>
+                            <div class="flex-1 flex items-center justify-between">
+                                <div>
+                                    <h3 class="font-medium text-gray-900">客户访谈-景高府案例</h3>
+                                    <p class="text-sm text-gray-500">Interviewed on: 8th Sep 2025 | Analyzed by: D&R on 8th Sep 2025</p>
+                                </div>
+                                <!-- 音频播放栏放在同一行 -->
+                                <div class="flex-1 max-w-md mx-8">
+                                    <div class="flex items-center justify-between text-sm text-gray-600 mb-2">
+                                        <span>00:00:00</span>
+                                        <span>1:40:35</span>
+                                    </div>
+                                    <div class="relative">
+                                        <div class="h-2 bg-gray-200 rounded-full">
+                                            <div class="audio-progress h-2 rounded-full" style="width: 25%"></div>
+                                        </div>
+                                        <!-- 时间标记点 -->
+                                        <div class="absolute top-0 flex w-full justify-between">
+                                            <div class="timeline-marker transform -translate-x-1/2"></div>
+                                            <div class="timeline-marker transform -translate-x-1/2"></div>
+                                            <div class="timeline-marker transform -translate-x-1/2"></div>
+                                            <div class="timeline-marker transform -translate-x-1/2"></div>
+                                            <div class="timeline-marker transform -translate-x-1/2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 播放控制 -->
+                                <div class="flex items-center space-x-3">
+                                    <button class="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <button class="text-blue-600 hover:text-blue-800 text-sm">More info</button>
+                            <button class="text-blue-600 hover:text-blue-800 text-sm">Export</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 主内容区域 -->
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <!-- 左侧导航 -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-lg shadow p-4 sticky top-6">
+                        <div class="space-y-4">
+                            <!-- Timeline 部分 -->
+                            <div>
+                                <h4 class="font-medium text-gray-900 mb-2 cursor-pointer" 
+                                    @click="selectedSection = selectedSection === 'timeline' ? null : 'timeline'">
+                                    Timeline
+                                    <span class="text-xs text-gray-500 ml-2" x-show="selectedSection === 'timeline'">(已选中)</span>
+                                </h4>
+                                <div class="space-y-1 text-sm" x-show="selectedSection === 'timeline' || selectedSection === null">
+                                    <div class="cursor-pointer hover:bg-gray-50 p-1 rounded" 
+                                         :class="selectedSection === 'timeline' ? 'bg-blue-100 text-blue-700' : ''"
+                                         @click="selectedSection = 'timeline'">1. First Thought</div>
+                                    <div class="cursor-pointer hover:bg-gray-50 p-1 rounded" 
+                                         :class="selectedSection === 'timeline' ? 'bg-blue-100 text-blue-700' : ''"
+                                         @click="selectedSection = 'timeline'">2. Passive looking</div>
+                                    <div class="cursor-pointer hover:bg-gray-50 p-1 rounded" 
+                                         :class="selectedSection === 'timeline' ? 'bg-blue-100 text-blue-700' : ''"
+                                         @click="selectedSection = 'timeline'">3. Event #1</div>
+                                    <div class="cursor-pointer hover:bg-gray-50 p-1 rounded" 
+                                         :class="selectedSection === 'timeline' ? 'bg-blue-100 text-blue-700' : ''"
+                                         @click="selectedSection = 'timeline'">4. Active Looking</div>
+                                    <div class="cursor-pointer hover:bg-gray-50 p-1 rounded" 
+                                         :class="selectedSection === 'timeline' ? 'bg-blue-100 text-blue-700' : ''"
+                                         @click="selectedSection = 'timeline'">5. Event #2</div>
+                                    <div class="cursor-pointer hover:bg-gray-50 p-1 rounded" 
+                                         :class="selectedSection === 'timeline' ? 'bg-blue-100 text-blue-700' : ''"
+                                         @click="selectedSection = 'timeline'">6. Deciding</div>
+                                    <div class="cursor-pointer hover:bg-gray-50 p-1 rounded" 
+                                         :class="selectedSection === 'timeline' ? 'bg-blue-100 text-blue-700' : ''"
+                                         @click="selectedSection = 'timeline'">7. Buying</div>
+                                    <div class="cursor-pointer hover:bg-gray-50 p-1 rounded" 
+                                         :class="selectedSection === 'timeline' ? 'bg-blue-100 text-blue-700' : ''"
+                                         @click="selectedSection = 'timeline'">8. Consuming</div>
+                                    <div class="cursor-pointer hover:bg-gray-50 p-1 rounded" 
+                                         :class="selectedSection === 'timeline' ? 'bg-blue-100 text-blue-700' : ''"
+                                         @click="selectedSection = 'timeline'">9. Satisfaction</div>
+                                </div>
+                            </div>
+
+                            <!-- Four forces 部分 -->
+                            <div>
+                                <h4 class="font-medium text-gray-900 mb-2 cursor-pointer" 
+                                    @click="selectedSection = selectedSection === 'forces' ? null : 'forces'">
+                                    Four forces
+                                    <span class="text-xs text-gray-500 ml-2" x-show="selectedSection === 'forces'">(已选中)</span>
+                                </h4>
+                                <div class="space-y-1 text-sm" x-show="selectedSection === 'forces' || selectedSection === null">
+                                    <div class="cursor-pointer hover:bg-gray-50 p-1 rounded" 
+                                         :class="selectedSection === 'forces' ? 'bg-green-100 text-green-700' : ''"
+                                         @click="selectedSection = 'forces'">1. Pull</div>
+                                    <div class="cursor-pointer hover:bg-gray-50 p-1 rounded" 
+                                         :class="selectedSection === 'forces' ? 'bg-red-100 text-red-700' : ''"
+                                         @click="selectedSection = 'forces'">2. Push</div>
+                                    <div class="cursor-pointer hover:bg-gray-50 p-1 rounded" 
+                                         :class="selectedSection === 'forces' ? 'bg-gray-100 text-gray-700' : ''"
+                                         @click="selectedSection = 'forces'">3. Habit</div>
+                                    <div class="cursor-pointer hover:bg-gray-50 p-1 rounded" 
+                                         :class="selectedSection === 'forces' ? 'bg-yellow-100 text-yellow-700' : ''"
+                                         @click="selectedSection = 'forces'">4. Anxiety</div>
+                                </div>
+                            </div>
+
+                            <!-- Job Statements 部分 -->
+                            <div>
+                                <h4 class="font-medium text-gray-900 mb-2 cursor-pointer" 
+                                    @click="selectedSection = selectedSection === 'jobs' ? null : 'jobs'">
+                                    Job Statements
+                                    <span class="text-xs text-gray-500 ml-2" x-show="selectedSection === 'jobs'">(已选中)</span>
+                                </h4>
+                                <div class="space-y-1 text-sm" x-show="selectedSection === 'jobs' || selectedSection === null">
+                                    <div class="cursor-pointer hover:bg-gray-50 p-1 rounded" 
+                                         :class="selectedSection === 'jobs' ? 'bg-purple-100 text-purple-700' : ''"
+                                         @click="selectedSection = 'jobs'">1. Struggling moment</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 中间内容区 -->
+                <div class="lg:col-span-2">
+                    <!-- 显示默认提示信息 -->
+                    <div class="bg-white rounded-lg shadow" x-show="!selectedSection">
+                        <div class="p-8 text-center text-gray-500">
+                            <svg class="mx-auto h-16 w-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                            </svg>
+                            <h3 class="text-lg font-medium text-gray-900 mb-2">请选择分析维度</h3>
+                            <p class="text-sm">点击左侧导航栏中的 Timeline、Four Forces 或 Job Statements 元素查看详细分析结果</p>
+                        </div>
+                    </div>
+
+                    <!-- Timeline 内容 -->
+                    <div class="bg-white rounded-lg shadow" x-show="selectedSection === 'timeline'">
+                        <!-- 推理过程 -->
+                        <div class="p-6 border-b border-gray-200">
+                            <h4 class="font-medium text-gray-900 mb-4">Reasoning</h4>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <p class="text-sm text-gray-600">
+                                    <span class="font-medium">According to</span> 
+                                    用户访谈内容，我们可以清晰地追踪客户从意识到问题到最终购买的完整时间线。这个旅程包括了多个关键节点：从2023年早期的问题意识，到2024年初的被动关注，再到2024年4月的积极行动，直到5月的最终购买。整个过程体现了从被动到主动，从意识到行动的渐进式转变。
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- 关键结论输出 -->
+                        <div class="p-6">
+                            <h4 class="font-medium text-gray-900 mb-4">Outputs</h4>
+                            <div class="space-y-3 text-sm">
+                                <div class="p-3 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                                    <div class="flex items-start">
+                                        <span class="font-medium text-blue-900 mr-2">First Thought:</span>
+                                        <div class="flex-1">
+                                            发生在2023年或更早，客户意识到居住问题（噪音和墙纸发霉）导致需要改善生活，但尚未积极行动
+                                            <span class="ml-2">
+                                                <span class="reference-link ml-1" @click="showReferenceList('timeline', 'First Thought', [1, 2, 3])">[1]</span>
+                                                <span class="reference-link ml-1" @click="showReferenceList('timeline', 'First Thought', [1, 2, 3])">[2]</span>
+                                                <span class="reference-link ml-1" @click="showReferenceList('timeline', 'First Thought', [1, 2, 3])">[3]</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="p-3 bg-blue-50 rounded-lg border-l-4 border-blue-400">
+                                    <div class="flex items-start">
+                                        <span class="font-medium text-blue-900 mr-2">Passive Looking:</span>
+                                        <div class="flex-1">
+                                            发生在2024年初或更早，客户被动注意到周边楼盘（如散步时观察景高府进度），但未投入精力
+                                            <span class="ml-2">
+                                                <span class="reference-link ml-1" @click="showReferenceList('timeline', 'Passive Looking', [2, 4])">[2]</span>
+                                                <span class="reference-link ml-1" @click="showReferenceList('timeline', 'Passive Looking', [2, 4])">[4]</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="p-3 bg-blue-50 rounded-lg border-l-4 border-blue-400">
+                                    <div class="flex items-start">
+                                        <span class="font-medium text-blue-900 mr-2">Event #1:</span>
+                                        <div class="flex-1">
+                                            未提及&客户明确表示没有特定事件触发立即行动，问题积累但无爆发点
+                                            <span class="ml-2">
+                                                <span class="reference-link ml-1" @click="showReferenceList('timeline', 'Event #1', [1, 3])">[1]</span>
+                                                <span class="reference-link ml-1" @click="showReferenceList('timeline', 'Event #1', [1, 3])">[3]</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="p-3 bg-blue-50 rounded-lg border-l-4 border-blue-600">
+                                    <div class="flex items-start">
+                                        <span class="font-medium text-blue-900 mr-2">Active Looking:</span>
+                                        <div class="flex-1">
+                                            发生在2024年4月，客户积极看房并比较多个楼盘（如金沙湖、融创），投入时间了解细节
+                                            <span class="ml-2">
+                                                <span class="reference-link ml-1" @click="showReferenceList('timeline', 'Active Looking', [4, 5])">[4]</span>
+                                                <span class="reference-link ml-1" @click="showReferenceList('timeline', 'Active Looking', [4, 5])">[5]</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="p-3 bg-blue-50 rounded-lg border-l-4 border-blue-600">
+                                    <div class="flex items-start">
+                                        <span class="font-medium text-blue-900 mr-2">Event #2:</span>
+                                        <div class="flex-1">
+                                            发生在2024年4月底，客户得知心仪户型（135平米）售罄，意识到时间紧迫需尽快决策
+                                            <span class="ml-2">
+                                                <span class="reference-link ml-1" @click="showReferenceList('timeline', 'Event #2', [3, 5])">[3]</span>
+                                                <span class="reference-link ml-1" @click="showReferenceList('timeline', 'Event #2', [3, 5])">[5]</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="p-3 bg-blue-50 rounded-lg border-l-4 border-blue-700">
+                                    <div class="flex items-start">
+                                        <span class="font-medium text-blue-900 mr-2">Deciding:</span>
+                                        <div class="flex-1">
+                                            发生在2024年4月底至5月初，客户基于标准（小高层、价格、税收）比较选项后选择景高府
+                                            <span class="ml-2">
+                                                <span class="reference-link ml-1" @click="showReferenceList('timeline', 'Deciding', [2, 4, 5])">[2]</span>
+                                                <span class="reference-link ml-1" @click="showReferenceList('timeline', 'Deciding', [2, 4, 5])">[4]</span>
+                                                <span class="reference-link ml-1" @click="showReferenceList('timeline', 'Deciding', [2, 4, 5])">[5]</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="p-3 bg-blue-50 rounded-lg border-l-4 border-blue-700">
+                                    <div class="flex items-start">
+                                        <span class="font-medium text-blue-900 mr-2">Buying:</span>
+                                        <div class="flex-1">
+                                            发生在2024年5月4日，客户支付定金购买景高府房子
+                                            <span class="ml-2">
+                                                <span class="reference-link ml-1" @click="showReferenceList('timeline', 'Buying', [5])">[5]</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="p-3 bg-gray-50 rounded-lg border-l-4 border-gray-400">
+                                    <div class="flex items-start">
+                                        <span class="font-medium text-gray-700 mr-2">Consuming:</span>
+                                        <div class="flex-1">
+                                            未进行&房子尚未交付，客户在租房过渡，未开始使用产品
+                                            <span class="ml-2">
+                                                <span class="reference-link ml-1" @click="showReferenceList('timeline', 'Consuming', [1])">[1]</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="p-3 bg-gray-50 rounded-lg border-l-4 border-gray-400">
+                                    <div class="flex items-start">
+                                        <span class="font-medium text-gray-700 mr-2">Satisfaction:</span>
+                                        <div class="flex-1">
+                                            未进行&房子尚未交付，客户未使用产品故无法评估满意度
+                                            <span class="ml-2">
+                                                <span class="reference-link ml-1" @click="showReferenceList('timeline', 'Satisfaction', [1])">[1]</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Four Forces 内容 -->
+                    <div class="bg-white rounded-lg shadow" x-show="selectedSection === 'forces'">
+                        <!-- 推理过程 -->
+                        <div class="p-6 border-b border-gray-200">
+                            <h4 class="font-medium text-gray-900 mb-4">Reasoning</h4>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <p class="text-sm text-gray-600">
+                                    <span class="font-medium">According to</span> 
+                                    访谈内容分析，Four Forces模型帮助我们理解客户做出购买决定的动力机制。Push力来自于对当前住房环境的不满，Pull力来自于新房子的吸引力，Anxiety反映了对新解决方案的担忧，而Habit在这个案例中作用很小。这些力量的相互作用决定了最终的购买决策。
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- 关键结论输出 -->
+                        <div class="p-6">
+                            <h4 class="font-medium text-gray-900 mb-4">Outputs</h4>
+                            <div class="space-y-3 text-sm">
+                                <div class="p-3 bg-green-50 rounded-lg border-l-4 border-green-500">
+                                    <div class="flex items-start">
+                                        <span class="font-medium text-green-900 mr-2">Pull:</span>
+                                        <div class="flex-1">
+                                            小高层避免电梯问题；宽敞舒适；税收优惠节省成本；质量好避免渗水风险
+                                            <span class="ml-2">
+                                                <span class="reference-link ml-1" @click="showReferenceList('forces', 'Pull', [2, 5])">[2]</span>
+                                                <span class="reference-link ml-1" @click="showReferenceList('forces', 'Pull', [2, 5])">[5]</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="p-3 bg-red-50 rounded-lg border-l-4 border-red-500">
+                                    <div class="flex items-start">
+                                        <span class="font-medium text-red-900 mr-2">Push:</span>
+                                        <div class="flex-1">
+                                            当前住房噪音大；外墙反潮导致墙纸发霉；预计未来问题加剧
+                                            <span class="ml-2">
+                                                <span class="reference-link ml-1" @click="showReferenceList('forces', 'Push', [1, 4])">[1]</span>
+                                                <span class="reference-link ml-1" @click="showReferenceList('forces', 'Push', [1, 4])">[4]</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="p-3 bg-yellow-50 rounded-lg border-l-4 border-yellow-500">
+                                    <div class="flex items-start">
+                                        <span class="font-medium text-yellow-900 mr-2">Anxiety:</span>
+                                        <div class="flex-1">
+                                            担心周边规划变化（如空地建高楼）；担心物业服务质量跟不上
+                                            <span class="ml-2">
+                                                <span class="reference-link ml-1" @click="showReferenceList('forces', 'Anxiety', [2, 4])">[2]</span>
+                                                <span class="reference-link ml-1" @click="showReferenceList('forces', 'Anxiety', [2, 4])">[4]</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="p-3 bg-gray-50 rounded-lg border-l-4 border-gray-500">
+                                    <div class="flex items-start">
+                                        <span class="font-medium text-gray-900 mr-2">Habit:</span>
+                                        <div class="flex-1">
+                                            未提及&用户没有描述习惯当前住房不愿改变的心理
+                                            <span class="ml-2">
+                                                <span class="reference-link ml-1" @click="showReferenceList('forces', 'Habit', [1, 3])">[1]</span>
+                                                <span class="reference-link ml-1" @click="showReferenceList('forces', 'Habit', [1, 3])">[3]</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Job Statements 内容 -->
+                    <div class="bg-white rounded-lg shadow" x-show="selectedSection === 'jobs'">
+                        <!-- 推理过程 -->
+                        <div class="p-6 border-b border-gray-200">
+                            <h4 class="font-medium text-gray-900 mb-4">Reasoning</h4>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <p class="text-sm text-gray-600">
+                                    <span class="font-medium">According to</span> 
+                                    Job Statement 是对客户整个购买旅程的高度概括，包含了他们的情景、挣扎、解决方案和期望的结果。这个表述整合了我们从 Timeline 和 Four Forces 分析中获得的所有关键洞察，形成了对客户购房动机的全面理解。
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- 具体结论 -->
+                        <div class="p-6">
+                            <h4 class="font-medium text-gray-900 mb-4">Output</h4>
+                            <div class="p-4 bg-purple-50 rounded-lg border-l-4 border-purple-500">
+                                <div class="flex items-start">
+                                    <span class="font-medium text-purple-900 mr-2">Job Statement:</span>
+                                    <div class="flex-1">
+                                        <div class="space-y-2 text-sm leading-relaxed">
+                                            <p><strong>情景：</strong>当客户住在有噪音和墙纸发霉问题的房子里，预计未来问题会加剧时；</p>
+                                            <p><strong>挣扎：</strong>客户在得知心仪户型售罄时，意识到如果不尽快行动，会错过购买舒适住房的机会；</p>
+                                            <p><strong>解决方案：</strong>客户想要购买小高层住房，以避免电梯问题、节省税收成本，并确保建筑质量；</p>
+                                            <p><strong>期望结果：</strong>所以客户可以享受舒适、无忧的居住环境，提升生活质量和心情；</p>
+                                            <p><strong>核心权衡：</strong>客户愿意放弃地段优势并支付额外装修费用，以换取小高层住房的舒适和质量；</p>
+                                            <p><strong>基本质量：</strong>住房必须是小高层，避免电梯故障和未来置换困难，并确保长期舒适。</p>
+                                        </div>
+                                        <span class="ml-2 mt-2 inline-block">
+                                            <span class="reference-link ml-1" @click="showReferenceList('jobs', 'Job Statement', [1, 2, 3, 4, 5])">[1]</span>
+                                            <span class="reference-link ml-1" @click="showReferenceList('jobs', 'Job Statement', [1, 2, 3, 4, 5])">[2]</span>
+                                            <span class="reference-link ml-1" @click="showReferenceList('jobs', 'Job Statement', [1, 2, 3, 4, 5])">[3]</span>
+                                            <span class="reference-link ml-1" @click="showReferenceList('jobs', 'Job Statement', [1, 2, 3, 4, 5])">[4]</span>
+                                            <span class="reference-link ml-1" @click="showReferenceList('jobs', 'Job Statement', [1, 2, 3, 4, 5])">[5]</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧参考区 -->
+                <div class="lg:col-span-1" x-show="selectedReference && (selectedReference.referenceIds || selectedReference > 0)">
+                    <div class="bg-white rounded-lg shadow p-4 sticky top-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-medium text-gray-900">References</h3>
+                            <button @click="selectedReference = null" class="text-gray-400 hover:text-gray-600">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div id="references-panel" class="space-y-3 text-sm max-h-96 overflow-y-auto">
+                            <!-- 参考内容将通过 JavaScript 动态显示 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function jtbdApp() {
+            return {
+                currentPage: 'dashboard',
+                isAnalyzing: false,
+                analysisProgress: 0,
+                selectedReference: null,
+                selectedSection: null,
+                selectedItem: null,
+                references: {
+                    1: {
+                        type: 'audio',
+                        timestamp: '00:05:23',
+                        content: '访问者A: 你们现在的住房情况怎么样？受访者C: 噪音真的很大，特别是晚上，还有墙纸经常发霉，可能是外墙漏水的问题...',
+                        source: '音频访谈文件 - 客户访谈记录.mp3'
+                    },
+                    2: {
+                        type: 'text',
+                        content: '在访谈中，客户明确表示对小高层的偏好，主要原因是考虑到电梯故障的风险和维护成本。同时，税收优惠政策也是关键考虑因素之一。',
+                        source: '文本记录 - 用户访谈整理.docx'
+                    },
+                    3: {
+                        type: 'audio',
+                        timestamp: '00:12:45',
+                        content: '访问者B: 什么时候开始考虑换房的？受访者C: 大概是2023年底吧，那时候就发现问题越来越严重，但是没有立刻行动...',
+                        source: '音频访谈文件 - 客户访谈记录.mp3'
+                    },
+                    4: {
+                        type: 'text',
+                        content: '客户对未来住房问题加剧的担忧主要来自于建筑老化和周边环境的变化。在访谈中提到了对物业服务质量的顾虑。',
+                        source: '文本记录 - 用户访谈整理.docx'
+                    },
+                    5: {
+                        type: 'audio',
+                        timestamp: '00:25:10',
+                        content: '受访者C: 我们看中的是这个小区的建筑质量，听说开发商在防水方面做得不错，而且户型设计也很合理...',
+                        source: '音频访谈文件 - 客户访谈记录.mp3'
+                    }
+                },
+                
+                // 定义Timeline数据
+                timelineData: {
+                    'First Thought': {
+                        content: '发生在2023年或更早，客户意识到居住问题（噪音和墙纸发霉）导致需要改善生活，但尚未积极行动',
+                        references: [1, 2, 3],
+                        reasoning: '根据访谈内容，客户提到他们在 2023 年或更早就开始意识到居住环境的问题，主要包括噪音污染和墙面潮湿问题。然而，在这个阶段，他们并没有立即采取行动，只是对现状有了不满的意识。'
+                    },
+                    'Passive looking': {
+                        content: '发生在2024年初或更早，客户被动注意到周边楼盘（如散步时观察景高府进度），但未投入精力',
+                        references: [2, 4],
+                        reasoning: '客户在访谈中描述了他们在 2024 年初开始无意中注意到周边的房地产项目，特别是在日常散步时会看到景高府的建设进度。但是在这个阶段，他们对于房地产市场的关注还只是被动的，没有主动去了解相关信息。'
+                    },
+                    'Event #1': {
+                        content: '未提及&客户明确表示没有特定事件触发立即行动，问题积累但无爆发点',
+                        references: [1, 3],
+                        reasoning: '在访谈过程中，当问及是否有特定的事件触发了他们的房屋购买决定时，客户明确表示没有任何突发的重大事件。相反，他们的决定更多是基于问题的逐渐积累和对未来生活质量的担忧。'
+                    },
+                    'Active Looking': {
+                        content: '发生在2024年4月，客户积极看房并比较多个楼盘（如金沙湖、融创），投入时间了解细节',
+                        references: [4, 5],
+                        reasoning: '客户表示他们在2024年4月开始积极地看房，这是一个重要的转折点。他们不再是被动地关注房地产市场，而是主动地去参观和比较不同的项目，包括金沙湖、融创等多个楼盘。这表明他们已经进入了一个更加认真的选房阶段。'
+                    },
+                    'Event #2': {
+                        content: '发生在2024年4月底，客户得知心仪户型（135平米）售罄，意识到时间紧迫需尽快决策',
+                        references: [3, 5],
+                        reasoning: '这是一个关键的触发事件。当客户得知他们最心仪的135平米户型已经售罄时，这给他们带来了巨大的紧迫感。这个事件让他们意识到在竞争激烈的房地产市场中，机会稍纵即逝，必须尽快做出决定。'
+                    },
+                    'Deciding': {
+                        content: '发生在2024年4月底至5月初，客户基于标准（小高层、价格、税收）比较选项后选择景高府',
+                        references: [2, 4, 5],
+                        reasoning: '在决策阶段，客户表现出了高度的理性。他们基于三个主要标准进行决策：建筑类型（小高层）、价格因素和税收优惠。最终选择景高府是因为它最符合他们的综合标准。'
+                    },
+                    'Buying': {
+                        content: '发生在2024年5月4日，客户支付定金购买景高府房子',
+                        references: [5],
+                        reasoning: '在经过了前面的所有阶段后，客户最终在 2024 年 5 月 4 日进行了实际的购买行为。这个日期非常具体，表明这是一个经过深思熟虑的决定，而不是冲动消费。'
+                    },
+                    'Consuming': {
+                        content: '未进行&房子尚未交付，客户在租房过渡，未开始使用产品',
+                        references: [1],
+                        reasoning: '由于房子尚未交付，客户目前仍在租房阶段。这意味着他们还没有真正体验到新房子的价值，也没有遇到新的使用问题。这个阶段对于了解客户的完整旅程是必要的。'
+                    },
+                    'Satisfaction': {
+                        content: '未进行&房子尚未交付，客户未使用产品故无法评估满意度',
+                        references: [1],
+                        reasoning: '由于房子尚未交付，客户还没有机会体验新居住环境，因此无法对产品的满意度做出评价。这也意味着JTBD的最后两个阶段尚未完成，需要在交付后的追踪访谈中进一步了解。'
+                    }
+                },
+                
+                // Four Forces 数据
+                fourForcesData: {
+                    'Pull': {
+                        content: '小高层避免电梯问题；宽敞舒适；税收优惠节省成本；质量好避免渗水风险',
+                        references: [2, 5],
+                        reasoning: '吸引力主要来自于新解决方案的积极属性。客户特别关注小高层建筑，认为它可以避免电梯故障的风险。同时，新房子的宽敞空间和更好的建筑质量也是强烈的吸引因素。'
+                    },
+                    'Push': {
+                        content: '当前住房噪音大；外墙反潮导致墙纸发霉；预计未来问题加剧',
+                        references: [1, 4],
+                        reasoning: '推动力来自于对当前住房环境的不满。噪音问题和墙纸发霉是直接的痛点，而对未来问题加剧的担忧则表明客户具有前瞻性思维。'
+                    },
+                    'Habit': {
+                        content: '未提及&用户没有描述习惯当前住房不愿改变的心理',
+                        references: [1, 3],
+                        reasoning: '在访谈中，客户并没有表现出对当前住房的依恋或习惯性依赖。这可能是因为他们对当前的住房问题已经遇到了足够的困扰，使得阀性的作用变得很小。'
+                    },
+                    'Anxiety': {
+                        content: '担心周边规划变化（如空地建高楼）；担心物业服务质量跟不上',
+                        references: [2, 4],
+                        reasoning: '焦虑主要来自于对新解决方案不确定性的担忧。客户担心周边环境的可能变化，以及新小区的物业管理水平。这些担忧是合理的，因为它们代表了对未来生活质量的不确定性。'
+                    }
+                },
+                
+                // Job Statements 数据  
+                jobStatementsData: {
+                    'Struggling moment': {
+                        content: '当客户住在有噪音和墙纸发霉问题的房子里，预计未来问题会加剧时；客户在得知心仪户型售罄时，意识到如果不尽快行动，会错过购买舒适住房的机会；客户想要购买小高层住房，以避免电梯问题、节省税收成本，并确保建筑质量；所以客户可以享受舒适、无忧的居住环境，提升生活质量和心情；客户愿意放弃地段优势并支付额外装修费用，以换取小高层住房的舒适和质量；住房必须是小高层，避免电梯故障和未来置换困难，并确保长期舒适',
+                        references: [1, 2, 3, 4, 5],
+                        reasoning: 'Job Statement 是对客户整个购买旅程的高度概括，包含了他们的情景、挣扎、解决方案和期望的结果。这个表述整合了我们从 Timeline 和 Four Forces 分析中获得的所有关键洞察。'
+                    }
+                },
+                
+                startAnalysis() {
+                    this.isAnalyzing = true;
+                    this.analysisProgress = 0;
+                    
+                    // 模拟分析进度
+                    const interval = setInterval(() => {
+                        this.analysisProgress += Math.random() * 20;
+                        if (this.analysisProgress >= 100) {
+                            this.analysisProgress = 100;
+                            this.isAnalyzing = false;
+                            clearInterval(interval);
+                            // 分析完成后跳转到结果页面
+                            setTimeout(() => {
+                                this.currentPage = 'analysis';
+                            }, 500);
+                        }
+                    }, 500);
+                },
+                
+                playAudio(timestamp) {
+                    console.log('跳转到音频位置:', timestamp);
+                    // 这里可以添加实际的音频跳转逻辑
+                },
+                
+                showReferenceList(section, item, referenceIds) {
+                    this.selectedReference = { section, item, referenceIds };
+                    const panel = document.getElementById('references-panel');
+                    
+                    if (referenceIds && referenceIds.length > 0) {
+                        let content = `<div class="mb-3 text-xs text-gray-500 uppercase tracking-wide">相关引用 - ${item}</div>`;
+                        
+                        referenceIds.forEach((refId, index) => {
+                            const reference = this.references[refId];
+                            if (reference) {
+                                if (reference.type === 'audio') {
+                                    content += `
+                                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <span class="text-xs font-medium text-blue-600">[${refId}] 音频引用</span>
+                                                <span class="text-xs text-gray-500">${reference.timestamp}</span>
+                                            </div>
+                                            <p class="text-xs text-gray-700 mb-2">${reference.content.substring(0, 100)}${reference.content.length > 100 ? '...' : ''}</p>
+                                            <div class="text-xs text-gray-500 mb-2">来源: ${reference.source}</div>
+                                            <div class="flex items-center space-x-2">
+                                                <button onclick="playAudioAt('${reference.timestamp}')" 
+                                                        class="text-xs bg-blue-600 text-white px-2 py-1 rounded hover:bg-blue-700">
+                                                    播放
+                                                </button>
+                                                <button onclick="showFullReference(${refId})" 
+                                                        class="text-xs text-blue-600 hover:text-blue-800">
+                                                    展开全文
+                                                </button>
+                                            </div>
+                                        </div>
+                                    `;
+                                } else {
+                                    content += `
+                                        <div class="bg-green-50 border border-green-200 rounded-lg p-3 mb-3">
+                                            <div class="flex items-center justify-between mb-2">
+                                                <span class="text-xs font-medium text-green-600">[${refId}] 文本引用</span>
+                                            </div>
+                                            <p class="text-xs text-gray-700 mb-2">${reference.content.substring(0, 100)}${reference.content.length > 100 ? '...' : ''}</p>
+                                            <div class="text-xs text-gray-500 mb-2">来源: ${reference.source}</div>
+                                            <button onclick="showFullReference(${refId})" 
+                                                    class="text-xs text-green-600 hover:text-green-800">
+                                                展开全文
+                                            </button>
+                                        </div>
+                                    `;
+                                }
+                            }
+                        });
+                        
+                        panel.innerHTML = content;
+                    }
+                },
+                
+                showReference(refId) {
+                    this.selectedReference = refId;
+                    const reference = this.references[refId];
+                    const panel = document.getElementById('references-panel');
+                    
+                    if (reference) {
+                        let content = '';
+                        if (reference.type === 'audio') {
+                            content = `
+                                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-xs font-medium text-blue-600 uppercase tracking-wide">音频引用</span>
+                                        <span class="text-xs text-gray-500">${reference.timestamp}</span>
+                                    </div>
+                                    <p class="text-sm text-gray-700 mb-3">${reference.content}</p>
+                                    <div class="text-xs text-gray-500 mb-3">来源: ${reference.source}</div>
+                                    <div class="flex items-center space-x-2">
+                                        <button onclick="playAudioAt('${reference.timestamp}')" 
+                                                class="text-xs bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+                                            播放音频
+                                        </button>
+                                        <div class="flex-1 bg-gray-200 rounded-full h-1">
+                                            <div class="bg-blue-600 h-1 rounded-full" style="width: 20%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        } else {
+                            content = `
+                                <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-xs font-medium text-green-600 uppercase tracking-wide">文本引用</span>
+                                    </div>
+                                    <p class="text-sm text-gray-700 mb-3">${reference.content}</p>
+                                    <div class="text-xs text-gray-500">来源: ${reference.source}</div>
+                                </div>
+                            `;
+                        }
+                        panel.innerHTML = content;
+                    }
+                },
+                
+                highlightReference(refId) {
+                    console.log('高亮引用:', refId);
+                    // 这里可以添加高亮相关文本的逻辑
+                }
+            };
+            
+            // 将实例暴露到全局供其他函数使用
+            window.jtbdAppInstance = appInstance;
+            return appInstance;
+        }
+        
+        function playAudioAt(timestamp) {
+            console.log('跳转到音频位置:', timestamp);
+            // 这里可以添加实际的音频跳转逻辑
+            alert('跳转到音频位置: ' + timestamp);
+        }
+        
+        function showFullReference(refId) {
+            // 显示完整引用内容的 Modal
+            const reference = window.jtbdAppInstance.references[refId];
+            if (reference) {
+                let content = `
+                    <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" onclick="closeModal()">
+                        <div class="relative top-20 mx-auto p-5 border w-11/12 max-w-lg shadow-lg rounded-md bg-white" onclick="event.stopPropagation()">
+                            <div class="mt-3">
+                                <div class="flex items-center justify-between mb-3">
+                                    <h3 class="text-lg font-medium text-gray-900">引用 [${refId}] 详情</h3>
+                                    <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                ${reference.type === 'audio' ? `<div class="text-sm text-blue-600 mb-2">音频引用 - ${reference.timestamp}</div>` : '<div class="text-sm text-green-600 mb-2">文本引用</div>'}
+                                <div class="text-sm text-gray-700 mb-4 max-h-60 overflow-y-auto">${reference.content}</div>
+                                <div class="text-xs text-gray-500 mb-4">来源: ${reference.source}</div>
+                                ${reference.type === 'audio' ? `
+                                    <div class="flex justify-center">
+                                        <button onclick="playAudioAt('${reference.timestamp}'); closeModal();" 
+                                                class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                            播放音频片段
+                                        </button>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                const modalDiv = document.createElement('div');
+                modalDiv.id = 'reference-modal';
+                modalDiv.innerHTML = content;
+                document.body.appendChild(modalDiv);
+            }
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('reference-modal');
+            if (modal) {
+                document.body.removeChild(modal);
+            }
+        }
+    </script>
+</body>
+</html>
