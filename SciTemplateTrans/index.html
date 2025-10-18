@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SciTemplateTrans - 学术论文格式转换工具</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .demo-section {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 40px;
+        }
+
+        .demo-section h2 {
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 12px;
+            padding: 60px 30px;
+            text-align: center;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            background: #e9ecef;
+            border-color: #764ba2;
+        }
+
+        .upload-icon {
+            font-size: 64px;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .upload-text {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .supported-formats {
+            font-size: 14px;
+            color: #999;
+        }
+
+        .tech-stack {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 40px;
+        }
+
+        .tech-stack h2 {
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .tech-item {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-weight: 500;
+            color: #667eea;
+        }
+
+        .cta-section {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 500;
+            transition: transform 0.3s, box-shadow 0.3s;
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 60px;
+            opacity: 0.8;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #4caf50;
+            color: white;
+            border-radius: 20px;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 32px;
+            }
+
+            .header p {
+                font-size: 16px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 SciTemplateTrans</h1>
+            <p>学术论文格式转换工具</p>
+            <div class="status-badge">✅ 生产就绪</div>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>一键转换</h3>
+                <p>支持Word与LaTeX格式互转，以及LaTeX模板切换。保留完整文档结构，智能识别章节、图表、公式和参考文献。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📐</div>
+                <h3>模板适配</h3>
+                <p>内置10+主流期刊模板（IEEE, ACM, Springer, Nature等）。自动适配格式要求，包括字体、页边距、行距和引用样式。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">👁️</div>
+                <h3>双栏预览</h3>
+                <p>实时对比原文档与转换结果，支持同步滚动和差异高亮。直观查看格式变化，确保转换准确性。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>智能解析</h3>
+                <p>基于python-docx、PyPDF2和pylatex的强大解析引擎。准确识别文档结构，保留所有格式细节。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">☁️</div>
+                <h3>云端处理</h3>
+                <p>支持本地存储和S3对象存储。使用Celery异步任务处理大文件，实时反馈转换进度。</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>安全可靠</h3>
+                <p>JWT认证、密码加密、文件隔离。完整的权限控制和数据备份机制，保护您的学术成果。</p>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>📄 实际应用案例</h2>
+            <div style="text-align: left; max-width: 800px; margin: 0 auto;">
+                <h3 style="color: #667eea; margin-bottom: 15px;">场景: ECCV会议论文转Intelligence & Robotics期刊</h3>
+
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                    <h4 style="margin-bottom: 10px;">输入:</h4>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li>源文档: ECCV 2024会议论文 (llncs.cls模板)</li>
+                        <li>参考文献: main.bib (ECCV格式)</li>
+                        <li>内容: 包含图表、公式、25条参考文献</li>
+                    </ul>
+                </div>
+
+                <div style="background: #e8f5e9; padding: 20px; border-radius: 8px;">
+                    <h4 style="margin-bottom: 10px;">输出:</h4>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li>目标文档: Intelligence & Robotics期刊格式</li>
+                        <li>参考文献: 自动转换为期刊要求格式</li>
+                        <li>引用位置: 保持与原文完全一致</li>
+                        <li>版本管理: v1.0.0语义化版本追踪</li>
+                    </ul>
+                </div>
+
+                <div style="margin-top: 30px; padding: 20px; background: #fff3e0; border-radius: 8px;">
+                    <h4 style="color: #e65100; margin-bottom: 10px;">⚡ 核心能力:</h4>
+                    <ul style="margin-left: 20px; line-height: 2;">
+                        <li><strong>BibTeX智能转换</strong>: 识别IEEE, ACM, Springer等不同引用格式</li>
+                        <li><strong>引用关系保持</strong>: 自动重新编号并保持引用位置</li>
+                        <li><strong>LaTeX模板迁移</strong>: 从会议模板无缝迁移到期刊模板</li>
+                        <li><strong>版本管理</strong>: 支持多版本共存和快速回滚</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>上传文档体验转换</h2>
+            <div class="upload-area" onclick="alert('完整功能请部署后端服务，请参考GitHub仓库使用Docker快速启动')">
+                <div class="upload-icon">☁️</div>
+                <div class="upload-text">拖拽文件到此处或点击上传</div>
+                <div class="supported-formats">支持格式: .docx, .tex, .pdf, .bib (最大50MB)</div>
+            </div>
+        </div>
+
+        <div class="tech-stack">
+            <h2>🛠️ 技术栈</h2>
+            <div class="tech-grid">
+                <div class="tech-item">React 18</div>
+                <div class="tech-item">TypeScript 5</div>
+                <div class="tech-item">Material-UI</div>
+                <div class="tech-item">FastAPI</div>
+                <div class="tech-item">SQLAlchemy</div>
+                <div class="tech-item">PostgreSQL</div>
+                <div class="tech-item">Redis</div>
+                <div class="tech-item">Celery</div>
+                <div class="tech-item">python-docx</div>
+                <div class="tech-item">pylatex</div>
+                <div class="tech-item">Docker</div>
+                <div class="tech-item">Nginx</div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2 style="margin-bottom: 30px; color: #2c3e50;">开始使用</h2>
+            <a href="https://github.com/wanghongsheng01/SciTemplateTrans" class="cta-button" target="_blank">
+                📦 查看GitHub仓库
+            </a>
+            <a href="https://github.com/wanghongsheng01/SciTemplateTrans/blob/main/versions/v1.0.0/code/README.md" class="cta-button" target="_blank">
+                📖 阅读文档
+            </a>
+            <div style="margin-top: 30px; color: #666;">
+                <h3 style="margin-bottom: 15px;">快速启动命令:</h3>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; text-align: left; max-width: 600px; margin: 0 auto; font-family: monospace;">
+                    <code>
+                        git clone https://github.com/wanghongsheng01/SciTemplateTrans<br>
+                        cd SciTemplateTrans/versions/v1.0.0/code<br>
+                        docker-compose up -d<br><br>
+                        # 访问 http://localhost:3000
+                    </code>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 SciTemplateTrans - Made with ❤️ for Academic Research</p>
+            <p style="margin-top: 10px; font-size: 14px;">Version 1.0.0 | MIT License</p>
+        </div>
+    </div>
+
+    <script>
+        // 添加简单的交互效果
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'translateY(-5px)';
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
