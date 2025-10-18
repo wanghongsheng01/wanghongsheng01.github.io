@@ -18,7 +18,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
-    <!-- Auto-login script: bypass login page and go directly to home -->
+    <!-- Enhanced auto-login script: force bypass login page -->
     <script>
       (function() {
         // Set mock authentication data in localStorage before app loads
@@ -30,10 +30,41 @@
         localStorage.setItem('userId', mockUserId);
         localStorage.setItem('userMobile', mockMobile);
 
-        // If we're on the login page, redirect to home
-        if (window.location.hash === '' || window.location.hash === '#/' || window.location.hash === '#/pages/auth/login') {
-          window.location.hash = '#/pages/home/index';
-        }
+        // Function to check and redirect from login page
+        var redirectToHome = function() {
+          var hash = window.location.hash;
+          if (hash === '' || hash === '#/' || hash === '#/pages/auth/login') {
+            console.log('[Auto-login] Detected login page, redirecting to home...');
+            window.location.hash = '#/pages/home/index';
+          }
+        };
+
+        // Immediate redirect
+        redirectToHome();
+
+        // Watch for hash changes and keep redirecting if back to login
+        window.addEventListener('hashchange', function() {
+          redirectToHome();
+        });
+
+        // Also check periodically for the first few seconds (in case router resets)
+        var checkCount = 0;
+        var maxChecks = 10;
+        var checkInterval = setInterval(function() {
+          redirectToHome();
+          checkCount++;
+          if (checkCount >= maxChecks) {
+            clearInterval(checkInterval);
+            console.log('[Auto-login] Monitoring stopped after ' + maxChecks + ' checks');
+          }
+        }, 500);
+
+        // Listen to DOMContentLoaded as a final checkpoint
+        document.addEventListener('DOMContentLoaded', function() {
+          setTimeout(redirectToHome, 100);
+          setTimeout(redirectToHome, 500);
+          setTimeout(redirectToHome, 1000);
+        });
       })();
     </script>
     <script type="module" crossorigin src="./assets/index-BWcxsYn8.js"></script>
