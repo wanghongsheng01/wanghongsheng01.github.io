@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>王宏升 | AI智能体领域专家 | 企业级多智能体平台架构师</title>
-    <meta name="description" content="王宏升博士,AI智能体领域专家,展示从0到1落地的4个核心产品:MagiQ多智能体平台、凯德地产JTBD智能体、中信期货交易训练营、上海钢联研报数字员工">
-    <meta name="keywords" content="王宏升,AI智能体,多智能体协作,Prompt工程,RAG,数字员工">
+    <title>在线简历和作品集制作工具 | Resume & Portfolio Builder</title>
+    <meta name="description" content="免费在线简历和作品集制作工具,支持上传简历、手动输入信息、添加作品集、在线编辑、导出PDF">
     <style>
         * {
             margin: 0;
@@ -14,16 +13,15 @@
         }
 
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #34495e;
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
             --accent-color: #EE7F2D;
             --light-bg: #f8f9fa;
             --card-bg: #ffffff;
             --text-primary: #2c3e50;
             --text-secondary: #7f8c8d;
-            --border-radius: 16px;
+            --border-radius: 12px;
             --box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            --box-shadow-hover: 0 12px 24px rgba(0,0,0,0.12);
             --transition: all 0.3s ease;
         }
 
@@ -34,951 +32,974 @@
             background: var(--light-bg);
         }
 
-        /* Navigation */
-        nav {
-            background: var(--card-bg);
-            box-shadow: var(--box-shadow);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        nav .container {
-            max-width: 1200px;
+        .app-container {
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 2rem;
         }
 
-        nav .logo {
-            font-size: 1.5rem;
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-radius: var(--border-radius);
+            margin-bottom: 3rem;
+            box-shadow: var(--box-shadow);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
             font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
             color: var(--primary-color);
         }
 
-        nav .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1.5rem;
         }
 
-        nav .nav-links a {
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-weight: 500;
-            transition: var(--transition);
-        }
-
-        nav .nav-links a:hover {
-            color: var(--accent-color);
-        }
-
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        section {
-            padding: 5rem 0;
-        }
-
-        /* Hero Section */
-        #hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
-            padding: 6rem 0;
-        }
-
-        .hero-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .hero-image {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            border: 6px solid white;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-            object-fit: cover;
-        }
-
-        .hero-content h1 {
-            font-size: 3rem;
-            font-weight: 700;
+        .form-group label {
+            display: block;
             margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
         }
 
-        .hero-content .subtitle {
-            font-size: 1.5rem;
-            opacity: 0.95;
-            margin-bottom: 1rem;
-        }
-
-        .hero-content .description {
-            font-size: 1.1rem;
-            max-width: 800px;
-            line-height: 1.8;
-            opacity: 0.9;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .btn {
-            padding: 0.8rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
             transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
             display: inline-block;
         }
 
         .btn-primary {
-            background: white;
-            color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
         }
 
         .btn-secondary {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: 2px solid white;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.3);
-        }
-
-        /* Section Title */
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .section-title p {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-        }
-
-        /* Products Grid */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .product-card {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 2.5rem;
-            box-shadow: var(--box-shadow);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .product-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent-color), #f39c12);
-        }
-
-        .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--box-shadow-hover);
-        }
-
-        .product-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1.5rem;
-        }
-
-        .product-title h3 {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-
-        .product-title .english {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .badges {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            align-items: flex-end;
-        }
-
-        .badge {
-            padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .badge-primary {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        .badge-secondary {
-            background: #e3f2fd;
-            color: #1976d2;
-        }
-
-        .badge-time {
-            background: #fff3e0;
-            color: #ef6c00;
-        }
-
-        .product-desc {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-        }
-
-        .product-features {
-            list-style: none;
-            margin-bottom: 1.5rem;
-        }
-
-        .product-features li {
-            padding: 0.5rem 0;
-            color: var(--text-secondary);
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .product-features li::before {
-            content: '▸';
-            position: absolute;
-            left: 0;
-            color: var(--accent-color);
-            font-weight: bold;
-        }
-
-        .product-links {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .product-link {
-            padding: 0.6rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .product-link-demo {
             background: var(--accent-color);
             color: white;
         }
 
-        .product-link-demo:hover {
-            background: #d66d1f;
-            transform: translateX(4px);
+        .btn-secondary:hover {
+            background: #d96e1f;
         }
 
-        .product-link-live {
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-outline:hover {
             background: var(--primary-color);
             color: white;
         }
 
-        .product-link-live:hover {
-            background: var(--secondary-color);
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
 
-        .tech-tags {
+        /* File Upload */
+        .file-upload {
+            border: 2px dashed var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .file-upload:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: var(--secondary-color);
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .file-upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Preview Section */
+        #preview-section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 3rem;
+            box-shadow: var(--box-shadow);
+            min-height: 600px;
+        }
+
+        .preview-header {
+            text-align: center;
+            padding-bottom: 2rem;
+            border-bottom: 3px solid var(--light-bg);
+            margin-bottom: 2rem;
+        }
+
+        .preview-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            display: block;
+            border: 4px solid var(--primary-color);
+        }
+
+        .preview-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .preview-title {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .preview-contact {
             display: flex;
-            gap: 0.5rem;
+            justify-content: center;
+            gap: 1.5rem;
             flex-wrap: wrap;
             margin-top: 1rem;
         }
 
-        .tech-tag {
-            padding: 0.3rem 0.8rem;
-            background: var(--light-bg);
-            border-radius: 6px;
-            font-size: 0.85rem;
+        .preview-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             color: var(--text-secondary);
         }
 
-        /* Skills Section */
-        #skills {
-            background: var(--card-bg);
+        .preview-section {
+            margin: 2rem 0;
         }
 
-        .skills-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: start;
-        }
-
-        .skills-text {
-            line-height: 1.8;
-            color: var(--text-secondary);
-        }
-
-        .skills-text h3 {
+        .preview-section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
             color: var(--primary-color);
-            margin: 1.5rem 0 1rem 0;
-            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-bg);
         }
 
-        .skills-text ul {
-            list-style: none;
-            padding-left: 1.5rem;
+        .preview-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--light-bg);
+            border-radius: 8px;
         }
 
-        .skills-text li {
-            margin: 0.5rem 0;
-            position: relative;
+        .preview-item-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
         }
 
-        .skills-text li::before {
-            content: '●';
-            position: absolute;
-            left: -1.5rem;
-            color: var(--accent-color);
+        .preview-item-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
         }
 
-        .skills-tags {
+        .preview-item-description {
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Portfolio Grid */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .portfolio-item {
+            background: var(--light-bg);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .portfolio-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .portfolio-item-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-item-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .portfolio-item-type {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Skills */
+        .skills-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
-            align-content: flex-start;
+            gap: 0.75rem;
+            margin-top: 1rem;
         }
 
         .skill-tag {
-            padding: 1rem 1.5rem;
-            background: var(--light-bg);
-            border-radius: 12px;
-            font-weight: 600;
-            transition: var(--transition);
-            cursor: default;
-        }
-
-        .skill-tag:hover {
-            background: var(--accent-color);
-            color: white;
-            transform: scale(1.05);
-        }
-
-        .skill-tag.large {
-            font-size: 1.2rem;
-        }
-
-        .skill-tag.medium {
-            font-size: 1rem;
-        }
-
-        .skill-tag.small {
-            font-size: 0.9rem;
-        }
-
-        /* Timeline */
-        .timeline {
-            position: relative;
-            padding: 2rem 0;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 2px;
-            height: 100%;
-            background: var(--accent-color);
-        }
-
-        .timeline-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-
-        .timeline-item:nth-child(odd) .timeline-content {
-            text-align: right;
-            margin-right: calc(50% + 3rem);
-        }
-
-        .timeline-item:nth-child(even) .timeline-content {
-            margin-left: calc(50% + 3rem);
-        }
-
-        .timeline-dot {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 16px;
-            height: 16px;
-            background: var(--accent-color);
-            border-radius: 50%;
-            border: 4px solid var(--light-bg);
-        }
-
-        .timeline-content {
-            background: var(--card-bg);
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: var(--box-shadow);
-        }
-
-        .timeline-date {
-            color: var(--accent-color);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .timeline-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        .timeline-subtitle {
-            color: var(--text-secondary);
-            margin-top: 0.3rem;
-        }
-
-        /* Contact Section */
-        #contact {
-            background: var(--card-bg);
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 3rem;
-            align-items: start;
-        }
-
-        .contact-info {
-            background: var(--light-bg);
-            padding: 2rem;
-            border-radius: var(--border-radius);
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin: 1.5rem 0;
-        }
-
-        .contact-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--accent-color);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-        }
-
-        .contact-details h4 {
-            color: var(--primary-color);
-            margin-bottom: 0.3rem;
-        }
-
-        .contact-details p {
-            color: var(--text-secondary);
-        }
-
-        .qr-codes {
-            display: grid;
-            gap: 2rem;
-        }
-
-        .qr-card {
-            background: var(--light-bg);
-            padding: 1.5rem;
-            border-radius: var(--border-radius);
-            text-align: center;
-        }
-
-        .qr-card img {
-            width: 200px;
-            height: 200px;
-            border-radius: 12px;
-            margin: 1rem 0;
-        }
-
-        .qr-card h4 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-        }
-
-        /* Footer */
-        footer {
+            padding: 0.5rem 1rem;
             background: var(--primary-color);
             color: white;
-            text-align: center;
-            padding: 2rem 0;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 2rem;
-            }
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--light-bg);
+        }
 
-            .hero-content .subtitle {
-                font-size: 1.2rem;
-            }
+        .tab {
+            padding: 1rem 2rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
 
-            .products-grid {
-                grid-template-columns: 1fr;
-            }
+        .tab.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
 
-            .skills-content {
-                grid-template-columns: 1fr;
-            }
+        .tab:hover {
+            color: var(--primary-color);
+        }
 
-            .timeline::before {
-                left: 20px;
-            }
+        .tab-content {
+            display: none;
+        }
 
-            .timeline-item:nth-child(odd) .timeline-content,
-            .timeline-item:nth-child(even) .timeline-content {
-                margin-left: 60px;
-                margin-right: 0;
-                text-align: left;
-            }
+        .tab-content.active {
+            display: block;
+        }
 
-            .timeline-dot {
-                left: 20px;
-            }
+        /* Alert */
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
 
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
+        .alert.show {
+            display: block;
+        }
 
-            nav .nav-links {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .spinner {
+            border: 3px solid var(--light-bg);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="container">
-            <div class="logo">王宏升</div>
-            <ul class="nav-links">
-                <li><a href="#hero">首页</a></li>
-                <li><a href="#products">产品</a></li>
-                <li><a href="#skills">技能</a></li>
-                <li><a href="#experience">经历</a></li>
-                <li><a href="#contact">联系</a></li>
-            </ul>
-        </div>
-    </nav>
+    <div class="app-container">
+        <header>
+            <h1>📄 在线简历和作品集制作工具</h1>
+            <p>免费创建专业的个人简历和作品集网站 | 支持在线编辑和PDF导出</p>
+        </header>
 
-    <!-- Hero Section -->
-    <section id="hero">
-        <div class="container">
-            <div class="hero-content">
-                <img src="personal-photo.jpg" alt="王宏升" class="hero-image">
-                <h1>王宏升 博士</h1>
-                <p class="subtitle">AI智能体领域专家 | 企业级多智能体平台架构师</p>
-                <p class="description">
-                    曾是互联网大厂和上市公司的智能体产品核心架构师，在智能体设计、多智能体协同、提示工程(Prompt Engineering)、RAG知识引擎及智能体测评优化方面拥有深厚积累和创新成果。
-                    曾任上市公司上海钢联副总经理和钢联科技子公司负责人、之江实验室高级研究专家-国产大模型训练框架、推理框架架构师，百度公司AI虚拟主播(数字人)负责人。
-                </p>
-                <div class="cta-buttons">
-                    <a href="#products" class="btn btn-primary">查看产品</a>
-                    <a href="#contact" class="btn btn-secondary">联系我</a>
-                    <a href="https://wanghongsheng01.github.io/team/publication.html" class="btn btn-secondary">学术成果</a>
+        <div id="alert-container"></div>
+
+        <div class="tabs">
+            <div class="tab active" data-tab="create">✏️ 创建简历</div>
+            <div class="tab" data-tab="portfolio">🎨 作品集</div>
+            <div class="tab" data-tab="preview">👁️ 预览</div>
+        </div>
+
+        <!-- Create Resume Tab -->
+        <div id="create-tab" class="tab-content active">
+            <div class="main-layout">
+                <!-- Left Column: Basic Info -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">👤</span>
+                        <h2 class="card-title">基本信息</h2>
+                    </div>
+
+                    <form id="basic-info-form">
+                        <div class="form-group">
+                            <label for="name">姓名 *</label>
+                            <input type="text" id="name" placeholder="请输入您的姓名" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="title">职位/头衔 *</label>
+                            <input type="text" id="title" placeholder="例如：前端工程师、产品经理" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">邮箱 *</label>
+                            <input type="email" id="email" placeholder="your.email@example.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">电话</label>
+                            <input type="tel" id="phone" placeholder="138-xxxx-xxxx">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="location">所在地</label>
+                            <input type="text" id="location" placeholder="例如：北京">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="summary">个人简介</label>
+                            <textarea id="summary" placeholder="简要介绍您的专业背景和技能优势..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="photo">个人照片 URL (可选)</label>
+                            <input type="url" id="photo" placeholder="https://example.com/photo.jpg">
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Right Column: Experience & Education -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">💼</span>
+                        <h2 class="card-title">经历与教育</h2>
+                    </div>
+
+                    <form id="experience-form">
+                        <h3 style="margin-bottom: 1rem; color: var(--primary-color);">工作经历</h3>
+
+                        <div class="form-group">
+                            <label for="work-title">职位</label>
+                            <input type="text" id="work-title" placeholder="例如：高级前端工程师">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="company">公司</label>
+                            <input type="text" id="company" placeholder="公司名称">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="work-period">工作时间</label>
+                            <input type="text" id="work-period" placeholder="例如：2020.01 - 2023.06">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="work-description">工作描述</label>
+                            <textarea id="work-description" placeholder="描述您的主要工作内容和成就..."></textarea>
+                        </div>
+
+                        <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--light-bg);">
+
+                        <h3 style="margin-bottom: 1rem; color: var(--primary-color);">教育背景</h3>
+
+                        <div class="form-group">
+                            <label for="degree">学位</label>
+                            <input type="text" id="degree" placeholder="例如：计算机科学学士">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="school">学校</label>
+                            <input type="text" id="school" placeholder="学校名称">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="edu-period">就读时间</label>
+                            <input type="text" id="edu-period" placeholder="例如：2016.09 - 2020.06">
+                        </div>
+
+                        <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--light-bg);">
+
+                        <h3 style="margin-bottom: 1rem; color: var(--primary-color);">技能</h3>
+
+                        <div class="form-group">
+                            <label for="skills">技能列表（用逗号分隔）</label>
+                            <textarea id="skills" placeholder="例如：JavaScript, React, Node.js, Python, UI设计"></textarea>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Products Section -->
-    <section id="products">
-        <div class="container">
-            <div class="section-title">
-                <h2>从0到1落地的产品</h2>
-                <p>主导设计和落地的企业级AI智能体产品</p>
-            </div>
-
-            <div class="products-grid">
-                <!-- Product 1: MagiQ -->
-                <div class="product-card">
-                    <div class="product-header">
-                        <div class="product-title">
-                            <h3>MagiQ 企业级多智能体协作平台</h3>
-                            <p class="english">Multi-Agent Digital Employee Platform</p>
-                        </div>
-                        <div class="badges">
-                            <span class="badge badge-primary">创业产品</span>
-                            <span class="badge badge-time">2024.12-至今</span>
-                        </div>
-                    </div>
-                    <p class="product-desc">
-                        杭州澜浔科技旗下MagiQ多智能体孪生员工平台，回归业务场景与用户体验，第一性原理发挥场景价值。
-                        帮助企业和个人工作室提供多智能体协作的数字员工解决方案，像微信聊天一样组建AI团队。
-                    </p>
-                    <ul class="product-features">
-                        <li>售前数字员工自动化客户管理和案例分发</li>
-                        <li>实时分析客户购买意愿，提供销售建议</li>
-                        <li>自动化内容营销与视频制作</li>
-                        <li>智能数据分析与报告生成</li>
-                    </ul>
-                    <div class="product-links">
-                        <a href="demos/magiq/index.html" class="product-link product-link-demo">🎬 观看演示</a>
-                        <a href="https://magiq.com.cn/" class="product-link product-link-live">🌐 在线体验</a>
-                    </div>
-                    <div class="tech-tags">
-                        <span class="tech-tag">多智能体协作</span>
-                        <span class="tech-tag">Prompt工程</span>
-                        <span class="tech-tag">RAG</span>
-                        <span class="tech-tag">工作流编排</span>
-                    </div>
-                </div>
-
-                <!-- Product 2: CapitaLand JTBD -->
-                <div class="product-card">
-                    <div class="product-header">
-                        <div class="product-title">
-                            <h3>凯德地产 JTBD 智能体</h3>
-                            <p class="english">CapitaLand JTBD AI Agent</p>
-                        </div>
-                        <div class="badges">
-                            <span class="badge badge-secondary">客户项目</span>
-                            <span class="badge badge-time">2025.07-2025.10</span>
-                        </div>
-                    </div>
-                    <p class="product-desc">
-                        为新加坡上市房地产公司凯德地产打造的JTBD(Jobs-to-be-Done)智能访谈分析工具，
-                        自动化客户调研流程，深度洞察购房决策路径。
-                    </p>
-                    <ul class="product-features">
-                        <li>音频/文本自动转写，按JTBD框架结构化输出</li>
-                        <li>Timeline还原9个决策关键节点</li>
-                        <li>Four Forces量化分析:推动、吸引、焦虑、习惯</li>
-                        <li>结论可溯源，支持原文引用和音频时间点跳转</li>
-                    </ul>
-                    <div class="product-links">
-                        <a href="demos/capitaLand-jtbd/index.html" class="product-link product-link-demo">🎬 交互演示</a>
-                    </div>
-                    <div class="tech-tags">
-                        <span class="tech-tag">NLP</span>
-                        <span class="tech-tag">语音识别</span>
-                        <span class="tech-tag">智能分析</span>
-                        <span class="tech-tag">JTBD框架</span>
-                    </div>
-                </div>
-
-                <!-- Product 3: CITIC Futures -->
-                <div class="product-card">
-                    <div class="product-header">
-                        <div class="product-title">
-                            <h3>中信期货交易训练营</h3>
-                            <p class="english">CITIC Futures Trading Camp</p>
-                        </div>
-                        <div class="badges">
-                            <span class="badge badge-secondary">客户项目</span>
-                            <span class="badge badge-time">2025.07-2025.09</span>
-                        </div>
-                    </div>
-                    <p class="product-desc">
-                        为中信期货设计的期货交易技能培训平台，创新性构建"初-中-高"三级进阶教学模型，
-                        通过真实市场案例和互动答题，提升用户交易技能。
-                    </p>
-                    <ul class="product-features">
-                        <li>初级:观察完整走势，预测尾部收敛阶段</li>
-                        <li>中级:部分信息下的趋势规律猜测</li>
-                        <li>高级:自主工具支持的完整走势预测</li>
-                        <li>真实案例复现与技术形态分析训练</li>
-                    </ul>
-                    <div class="product-links">
-                        <a href="demos/citic-futures/index.html" class="product-link product-link-demo">🎬 H5体验</a>
-                    </div>
-                    <div class="tech-tags">
-                        <span class="tech-tag">教育培训</span>
-                        <span class="tech-tag">数据可视化</span>
-                        <span class="tech-tag">交互设计</span>
-                        <span class="tech-tag">游戏化</span>
-                    </div>
-                </div>
-
-                <!-- Product 4: MySteel -->
-                <div class="product-card">
-                    <div class="product-header">
-                        <div class="product-title">
-                            <h3>上海钢联研报撰写数字员工</h3>
-                            <p class="english">MySteel Research Report AI Writer</p>
-                        </div>
-                        <div class="badges">
-                            <span class="badge badge-secondary">客户项目</span>
-                            <span class="badge badge-time">2025.04-2025.07</span>
-                        </div>
-                    </div>
-                    <p class="product-desc">
-                        大宗商品现货和期货研报自动撰写系统，基于数据驱动的分析模型，
-                        设计可参数化、可配置、可扩展的分析框架，实现日报、周报、月报的智能生成。
-                    </p>
-                    <ul class="product-features">
-                        <li>大宗商品核心定价逻辑研究与建模</li>
-                        <li>"主导因子"分析模型，动态跟踪关键指标</li>
-                        <li>可配置的分析框架和模板系统</li>
-                        <li>数据仓库驱动的自动化报告生成</li>
-                    </ul>
-                    <div class="product-links">
-                        <a href="demos/mysteel/index.html" class="product-link product-link-demo">📧 联系查看演示</a>
-                    </div>
-                    <div class="tech-tags">
-                        <span class="tech-tag">NLG</span>
-                        <span class="tech-tag">数据分析</span>
-                        <span class="tech-tag">模板引擎</span>
-                        <span class="tech-tag">金融科技</span>
-                    </div>
-                </div>
+            <div class="btn-group" style="justify-content: center;">
+                <button class="btn btn-primary" onclick="saveResumeData()">💾 保存数据</button>
+                <button class="btn btn-outline" onclick="clearForm()">🗑️ 清空表单</button>
             </div>
         </div>
-    </section>
 
-    <!-- Skills Section -->
-    <section id="skills">
-        <div class="container">
-            <div class="section-title">
-                <h2>专业技能</h2>
-                <p>AI智能体领域的深度积累</p>
-            </div>
-            <div class="skills-content">
-                <div class="skills-text">
-                    <p>
-                        王宏升博士，曾是互联网大厂和上市公司的智能体产品的核心架构师，AI智能体领域专家，
-                        在智能体设计、多智能体协同、提示工程(Prompt Engineering)、RAG知识引擎及智能体测评优化方面拥有深厚积累和创新成果。
-                    </p>
-                    <h3>核心专长</h3>
-                    <ul>
-                        <li>多智能体协作系统架构设计</li>
-                        <li>Prompt工程与大模型优化</li>
-                        <li>RAG知识引擎构建与优化</li>
-                        <li>智能体性能测评与迭代</li>
-                        <li>企业AI产品从0到1落地</li>
-                    </ul>
-                    <h3>研究成果</h3>
-                    <ul>
-                        <li>发表近20篇顶会论文</li>
-                        <li>持有71项中国专利、25项美国PCT专利、4项日本PCT专利</li>
-                    </ul>
-                    <h3>行业影响力</h3>
-                    <ul>
-                        <li><a href="https://std.samr.gov.cn/gb/search/gbDetailed?id=3E68E420F142352EE06397BE0A0ACBAE" style="color: var(--accent-color); text-decoration: underline;" target="_blank">国家标准《人工智能 端云设备间模型协同系统规范》</a>，作者：王宏升、浙江大学吴飞教授等</li>
-                    </ul>
+        <!-- Portfolio Tab -->
+        <div id="portfolio-tab" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-icon">🎨</span>
+                    <h2 class="card-title">作品集管理</h2>
                 </div>
-                <div class="skills-tags">
-                    <span class="skill-tag large">多智能体协作</span>
-                    <span class="skill-tag large">Prompt工程</span>
-                    <span class="skill-tag large">RAG知识引擎</span>
-                    <span class="skill-tag medium">产品架构设计</span>
-                    <span class="skill-tag medium">智能体测评</span>
-                    <span class="skill-tag medium">大模型训练</span>
-                    <span class="skill-tag small">分布式系统</span>
-                    <span class="skill-tag small">深度学习</span>
-                    <span class="skill-tag small">NLP</span>
-                    <span class="skill-tag small">计算机视觉</span>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Experience Timeline -->
-    <section id="experience">
-        <div class="container">
-            <div class="section-title">
-                <h2>工作经历</h2>
-                <p>从学术研究到产业落地</p>
-            </div>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2024.08 - 至今</div>
-                        <div class="timeline-title">杭州澜浔科技有限公司</div>
-                        <div class="timeline-subtitle">创始人&CEO | MagiQ多智能体平台</div>
-                    </div>
+                <div class="alert alert-info show">
+                    💡 提示：您可以添加项目、作品或任何您想展示的内容
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2024.03 - 2024.08</div>
-                        <div class="timeline-title">上海钢联</div>
-                        <div class="timeline-subtitle">副总经理&大模型团队负责人 | 钢联科技子公司负责人</div>
+
+                <form id="portfolio-form">
+                    <div class="form-group">
+                        <label for="project-name">项目/作品名称 *</label>
+                        <input type="text" id="project-name" placeholder="例如：电商平台前端开发">
                     </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2020.03 - 2024.12</div>
-                        <div class="timeline-title">之江实验室</div>
-                        <div class="timeline-subtitle">高级研究专家 | 人工智能研究院AIGC方向负责人</div>
+
+                    <div class="form-group">
+                        <label for="project-type">类型</label>
+                        <select id="project-type">
+                            <option value="web">网站项目</option>
+                            <option value="app">移动应用</option>
+                            <option value="design">设计作品</option>
+                            <option value="other">其他</option>
+                        </select>
                     </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2019.06 - 2020.03</div>
-                        <div class="timeline-title">百度公司</div>
-                        <div class="timeline-subtitle">AI虚拟主播(数字人)负责人</div>
+
+                    <div class="form-group">
+                        <label for="project-description">项目描述</label>
+                        <textarea id="project-description" placeholder="描述项目的背景、您的角色和主要成果..."></textarea>
                     </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-date">2015.06 - 2016.09</div>
-                        <div class="timeline-title">北京问鼎鸿儒研究院</div>
-                        <div class="timeline-subtitle">联合创始人&研发经理</div>
+
+                    <div class="form-group">
+                        <label for="project-link">项目链接 (可选)</label>
+                        <input type="url" id="project-link" placeholder="https://example.com/project">
+                    </div>
+
+                    <button type="button" class="btn btn-primary" onclick="addPortfolioItem()">➕ 添加到作品集</button>
+                </form>
+
+                <div id="portfolio-list" style="margin-top: 2rem;">
+                    <h3 style="margin-bottom: 1rem;">已添加的作品</h3>
+                    <div id="portfolio-items" class="portfolio-grid">
+                        <!-- Portfolio items will be added here dynamically -->
                     </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <div class="container">
-            <div class="section-title">
-                <h2>联系方式</h2>
-                <p>欢迎交流合作</p>
-            </div>
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-icon">📱</div>
-                        <div class="contact-details">
-                            <h4>手机</h4>
-                            <p>18813178291</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">✉️</div>
-                        <div class="contact-details">
-                            <h4>邮箱</h4>
-                            <p>wanghongsheng@zju.edu.cn</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">🌐</div>
-                        <div class="contact-details">
-                            <h4>个人主页</h4>
-                            <p><a href="https://wanghongsheng01.github.io/" style="color: var(--accent-color);">wanghongsheng01.github.io</a></p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">📚</div>
-                        <div class="contact-details">
-                            <h4>学术成果</h4>
-                            <p><a href="https://wanghongsheng01.github.io/team/publication.html" style="color: var(--accent-color);">查看发表论文</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="qr-codes">
-                    <div class="qr-card">
-                        <h4>微信联系</h4>
-                        <img src="wechat-qr.jpg" alt="微信二维码">
-                        <p style="color: var(--text-secondary);">扫码添加微信</p>
-                    </div>
-                    <div class="qr-card">
-                        <h4>MagiQ小程序</h4>
-                        <img src="magiq-qr.jpg" alt="MagiQ二维码">
-                        <p style="color: var(--text-secondary);">体验MagiQ平台</p>
-                    </div>
+        <!-- Preview Tab -->
+        <div id="preview-tab" class="tab-content">
+            <div id="preview-section">
+                <!-- Preview content will be generated here -->
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>请先填写基本信息并保存...</p>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 王宏升. All Rights Reserved.</p>
-            <p style="margin-top: 0.5rem; opacity: 0.8;">AI智能体领域专家 | 企业级多智能体平台架构师</p>
+            <div class="btn-group" style="justify-content: center; margin-top: 2rem;">
+                <button class="btn btn-primary" onclick="refreshPreview()">🔄 刷新预览</button>
+                <button class="btn btn-secondary" onclick="exportToPDF()">📥 导出PDF</button>
+                <button class="btn btn-outline" onclick="downloadHTML()">💾 下载HTML</button>
+            </div>
         </div>
-    </footer>
+    </div>
 
     <script>
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Data storage
+        let resumeData = {
+            basic: {},
+            experience: {
+                work: {},
+                education: {},
+                skills: []
+            },
+            portfolio: []
+        };
+
+        // Load saved data from localStorage
+        function loadSavedData() {
+            const saved = localStorage.getItem('resumeData');
+            if (saved) {
+                resumeData = JSON.parse(saved);
+                populateForm();
+                renderPortfolioItems();
+            }
+        }
+
+        // Save data to localStorage
+        function saveToLocalStorage() {
+            localStorage.setItem('resumeData', JSON.stringify(resumeData));
+        }
+
+        // Populate form with saved data
+        function populateForm() {
+            const basic = resumeData.basic;
+            if (basic.name) document.getElementById('name').value = basic.name;
+            if (basic.title) document.getElementById('title').value = basic.title;
+            if (basic.email) document.getElementById('email').value = basic.email;
+            if (basic.phone) document.getElementById('phone').value = basic.phone;
+            if (basic.location) document.getElementById('location').value = basic.location;
+            if (basic.summary) document.getElementById('summary').value = basic.summary;
+            if (basic.photo) document.getElementById('photo').value = basic.photo;
+
+            const exp = resumeData.experience;
+            if (exp.work.title) document.getElementById('work-title').value = exp.work.title;
+            if (exp.work.company) document.getElementById('company').value = exp.work.company;
+            if (exp.work.period) document.getElementById('work-period').value = exp.work.period;
+            if (exp.work.description) document.getElementById('work-description').value = exp.work.description;
+
+            if (exp.education.degree) document.getElementById('degree').value = exp.education.degree;
+            if (exp.education.school) document.getElementById('school').value = exp.education.school;
+            if (exp.education.period) document.getElementById('edu-period').value = exp.education.period;
+
+            if (exp.skills && exp.skills.length > 0) {
+                document.getElementById('skills').value = exp.skills.join(', ');
+            }
+        }
+
+        // Save resume data
+        function saveResumeData() {
+            // Basic info
+            resumeData.basic = {
+                name: document.getElementById('name').value,
+                title: document.getElementById('title').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                location: document.getElementById('location').value,
+                summary: document.getElementById('summary').value,
+                photo: document.getElementById('photo').value
+            };
+
+            // Experience
+            resumeData.experience = {
+                work: {
+                    title: document.getElementById('work-title').value,
+                    company: document.getElementById('company').value,
+                    period: document.getElementById('work-period').value,
+                    description: document.getElementById('work-description').value
+                },
+                education: {
+                    degree: document.getElementById('degree').value,
+                    school: document.getElementById('school').value,
+                    period: document.getElementById('edu-period').value
+                },
+                skills: document.getElementById('skills').value.split(',').map(s => s.trim()).filter(s => s)
+            };
+
+            saveToLocalStorage();
+            showAlert('数据已保存！', 'success');
+            generatePreview();
+        }
+
+        // Add portfolio item
+        function addPortfolioItem() {
+            const name = document.getElementById('project-name').value;
+            const type = document.getElementById('project-type').value;
+            const description = document.getElementById('project-description').value;
+            const link = document.getElementById('project-link').value;
+
+            if (!name) {
+                showAlert('请输入项目名称', 'info');
+                return;
+            }
+
+            const item = {
+                id: Date.now(),
+                name,
+                type,
+                description,
+                link
+            };
+
+            resumeData.portfolio.push(item);
+            saveToLocalStorage();
+            renderPortfolioItems();
+
+            // Clear form
+            document.getElementById('project-name').value = '';
+            document.getElementById('project-description').value = '';
+            document.getElementById('project-link').value = '';
+
+            showAlert('作品已添加！', 'success');
+        }
+
+        // Render portfolio items
+        function renderPortfolioItems() {
+            const container = document.getElementById('portfolio-items');
+            if (resumeData.portfolio.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:var(--text-secondary); padding:2rem;">暂无作品</p>';
+                return;
+            }
+
+            const typeIcons = {
+                web: '🌐',
+                app: '📱',
+                design: '🎨',
+                other: '📄'
+            };
+
+            container.innerHTML = resumeData.portfolio.map(item => `
+                <div class="portfolio-item">
+                    <div class="portfolio-item-icon">${typeIcons[item.type] || '📄'}</div>
+                    <div class="portfolio-item-name">${item.name}</div>
+                    <div class="portfolio-item-type">${item.type}</div>
+                    ${item.link ? `<a href="${item.link}" target="_blank" style="font-size:0.8rem; color:var(--primary-color);">查看项目 →</a>` : ''}
+                    <button onclick="removePortfolioItem(${item.id})" style="margin-top:0.5rem; padding:0.25rem 0.5rem; background:#dc3545; color:white; border:none; border-radius:4px; cursor:pointer;">删除</button>
+                </div>
+            `).join('');
+        }
+
+        // Remove portfolio item
+        function removePortfolioItem(id) {
+            resumeData.portfolio = resumeData.portfolio.filter(item => item.id !== id);
+            saveToLocalStorage();
+            renderPortfolioItems();
+            showAlert('作品已删除', 'info');
+        }
+
+        // Generate preview
+        function generatePreview() {
+            const preview = document.getElementById('preview-section');
+            const data = resumeData;
+
+            if (!data.basic.name) {
+                preview.innerHTML = '<div class="loading"><div class="spinner"></div><p>请先填写基本信息并保存...</p></div>';
+                return;
+            }
+
+            let html = `
+                <div class="preview-header">
+                    ${data.basic.photo ? `<img src="${data.basic.photo}" alt="${data.basic.name}" class="preview-photo">` : ''}
+                    <h1 class="preview-name">${data.basic.name || '未填写姓名'}</h1>
+                    <p class="preview-title">${data.basic.title || '未填写职位'}</p>
+                    <div class="preview-contact">
+                        ${data.basic.email ? `<span class="preview-contact-item">📧 ${data.basic.email}</span>` : ''}
+                        ${data.basic.phone ? `<span class="preview-contact-item">📞 ${data.basic.phone}</span>` : ''}
+                        ${data.basic.location ? `<span class="preview-contact-item">📍 ${data.basic.location}</span>` : ''}
+                    </div>
+                </div>
+            `;
+
+            // Summary
+            if (data.basic.summary) {
+                html += `
+                    <div class="preview-section">
+                        <h2 class="preview-section-title">📝 个人简介</h2>
+                        <p style="line-height:1.8;">${data.basic.summary}</p>
+                    </div>
+                `;
+            }
+
+            // Skills
+            if (data.experience.skills && data.experience.skills.length > 0) {
+                html += `
+                    <div class="preview-section">
+                        <h2 class="preview-section-title">🎯 专业技能</h2>
+                        <div class="skills-list">
+                            ${data.experience.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Work Experience
+            if (data.experience.work && data.experience.work.company) {
+                html += `
+                    <div class="preview-section">
+                        <h2 class="preview-section-title">💼 工作经历</h2>
+                        <div class="preview-item">
+                            <div class="preview-item-title">${data.experience.work.title} @ ${data.experience.work.company}</div>
+                            <div class="preview-item-subtitle">${data.experience.work.period || '时间未填写'}</div>
+                            <div class="preview-item-description">${data.experience.work.description || ''}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Education
+            if (data.experience.education && data.experience.education.school) {
+                html += `
+                    <div class="preview-section">
+                        <h2 class="preview-section-title">🎓 教育背景</h2>
+                        <div class="preview-item">
+                            <div class="preview-item-title">${data.experience.education.degree} - ${data.experience.education.school}</div>
+                            <div class="preview-item-subtitle">${data.experience.education.period || '时间未填写'}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Portfolio
+            if (data.portfolio && data.portfolio.length > 0) {
+                html += `
+                    <div class="preview-section">
+                        <h2 class="preview-section-title">🎨 作品集</h2>
+                `;
+
+                data.portfolio.forEach(item => {
+                    html += `
+                        <div class="preview-item">
+                            <div class="preview-item-title">${item.name}</div>
+                            <div class="preview-item-subtitle">类型：${item.type}</div>
+                            ${item.description ? `<div class="preview-item-description">${item.description}</div>` : ''}
+                            ${item.link ? `<a href="${item.link}" target="_blank" style="color:var(--primary-color); text-decoration:none; font-weight:500; margin-top:0.5rem; display:inline-block;">🔗 查看项目</a>` : ''}
+                        </div>
+                    `;
+                });
+
+                html += `</div>`;
+            }
+
+            preview.innerHTML = html;
+        }
+
+        // Refresh preview
+        function refreshPreview() {
+            generatePreview();
+            showAlert('预览已刷新！', 'success');
+        }
+
+        // Export to PDF (Placeholder - requires a PDF library)
+        function exportToPDF() {
+            showAlert('PDF导出功能开发中...您可以使用浏览器的打印功能（Ctrl+P / Cmd+P）选择"另存为PDF"来导出简历', 'info');
+
+            // Open print dialog
+            setTimeout(() => {
+                window.print();
+            }, 1000);
+        }
+
+        // Download HTML
+        function downloadHTML() {
+            const preview = document.getElementById('preview-section');
+            const htmlContent = `
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${resumeData.basic.name || '个人简历'} - Resume</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif; line-height: 1.6; color: #2c3e50; padding: 2rem; max-width: 900px; margin: 0 auto; }
+        .preview-header { text-align: center; padding-bottom: 2rem; border-bottom: 3px solid #f8f9fa; margin-bottom: 2rem; }
+        .preview-photo { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto 1rem; display: block; border: 4px solid #667eea; }
+        .preview-name { font-size: 2rem; font-weight: 700; color: #667eea; margin-bottom: 0.5rem; }
+        .preview-title { font-size: 1.2rem; color: #7f8c8d; margin-bottom: 1rem; }
+        .preview-contact { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-top: 1rem; }
+        .preview-contact-item { color: #7f8c8d; }
+        .preview-section { margin: 2rem 0; }
+        .preview-section-title { font-size: 1.5rem; font-weight: 600; color: #667eea; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid #f8f9fa; }
+        .preview-item { margin-bottom: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; }
+        .preview-item-title { font-weight: 600; color: #2c3e50; margin-bottom: 0.5rem; }
+        .preview-item-subtitle { color: #7f8c8d; font-size: 0.9rem; margin-bottom: 0.5rem; }
+        .preview-item-description { color: #2c3e50; line-height: 1.6; }
+        .skills-list { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
+        .skill-tag { padding: 0.5rem 1rem; background: #667eea; color: white; border-radius: 20px; font-size: 0.9rem; font-weight: 500; }
+        @media print { body { padding: 0; } }
+    </style>
+</head>
+<body>
+    ${preview.innerHTML}
+</body>
+</html>
+            `;
+
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${resumeData.basic.name || 'resume'}.html`;
+            a.click();
+            URL.revokeObjectURL(url);
+
+            showAlert('HTML文件已下载！', 'success');
+        }
+
+        // Clear form
+        function clearForm() {
+            if (confirm('确定要清空所有表单内容吗？')) {
+                document.getElementById('basic-info-form').reset();
+                document.getElementById('experience-form').reset();
+                showAlert('表单已清空', 'info');
+            }
+        }
+
+        // Show alert
+        function showAlert(message, type = 'info') {
+            const container = document.getElementById('alert-container');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type} show`;
+            alert.textContent = message;
+            container.appendChild(alert);
+
+            setTimeout(() => {
+                alert.remove();
+            }, 3000);
+        }
+
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.dataset.tab;
+
+                // Update active tab
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+
+                // Update active content
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                document.getElementById(`${tabName}-tab`).classList.add('active');
+
+                // Generate preview if switching to preview tab
+                if (tabName === 'preview') {
+                    generatePreview();
                 }
             });
         });
 
-        // Add animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.product-card, .timeline-item').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(30px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(el);
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            loadSavedData();
+            showAlert('欢迎使用在线简历和作品集制作工具！开始创建您的专业简历吧！', 'success');
         });
     </script>
 </body>
