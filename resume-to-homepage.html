@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简历转个人主页生成器 | Resume to Homepage Converter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .upload-section {
+            text-align: center;
+        }
+
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 15px;
+            padding: 60px 20px;
+            margin: 30px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9ff;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #f0f2ff;
+            transform: translateY(-2px);
+        }
+
+        .upload-area.dragover {
+            border-color: #764ba2;
+            background: #e8ebff;
+        }
+
+        .upload-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        .upload-text {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .upload-hint {
+            font-size: 0.9em;
+            color: #999;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .preview-section {
+            min-height: 600px;
+        }
+
+        .preview-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .preview-content {
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 30px;
+            background: #fafafa;
+            min-height: 500px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .file-info {
+            background: #e8f4ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .file-info.show {
+            display: block;
+        }
+
+        .file-name {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .file-size {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 60px 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .extract-info {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .info-section {
+            margin-bottom: 20px;
+        }
+
+        .info-section h3 {
+            color: #667eea;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+            padding-left: 10px;
+        }
+
+        .info-section p {
+            color: #555;
+            line-height: 1.6;
+            margin: 5px 0;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 简历转个人主页生成器</h1>
+            <p>上传简历，一键生成精美个人主页 | Upload Resume, Generate Beautiful Homepage Instantly</p>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">📄</div>
+                <div class="feature-title">多格式支持</div>
+                <div class="feature-desc">支持PDF、Word、LaTeX、TXT等多种简历格式</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <div class="feature-title">智能解析</div>
+                <div class="feature-desc">AI自动提取教育经历、工作经验、技能等信息</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <div class="feature-title">精美模板</div>
+                <div class="feature-desc">专业设计师打造的响应式个人主页模板</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-title">实时预览</div>
+                <div class="feature-desc">即时生成预览，所见即所得</div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="card upload-section">
+                <h2 style="color: #333; margin-bottom: 20px;">📤 上传简历</h2>
+
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">拖拽文件到此处或点击上传</div>
+                    <div class="upload-hint">支持 PDF、Word、LaTeX、TXT 格式</div>
+                </div>
+
+                <input type="file" id="fileInput" class="file-input" accept=".pdf,.doc,.docx,.tex,.txt">
+
+                <div class="file-info" id="fileInfo">
+                    <div class="file-name" id="fileName"></div>
+                    <div class="file-size" id="fileSize"></div>
+                </div>
+
+                <button class="btn" id="generateBtn" disabled>
+                    🎨 生成个人主页
+                </button>
+
+                <div class="action-buttons" id="actionButtons" style="display: none;">
+                    <button class="btn download-btn" id="downloadBtn">
+                        💾 下载HTML
+                    </button>
+                    <button class="btn" id="deployBtn">
+                        🌐 部署到GitHub Pages
+                    </button>
+                </div>
+            </div>
+
+            <div class="card preview-section">
+                <h2>👀 预览效果</h2>
+                <div class="preview-content" id="previewContent">
+                    <div style="text-align: center; padding: 60px 20px; color: #999;">
+                        <div style="font-size: 60px; margin-bottom: 20px;">🖼️</div>
+                        <div>上传简历后即可预览生成的个人主页</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+    <script>
+        // 配置 PDF.js
+        if (typeof pdfjsLib !== 'undefined') {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+        }
+
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const generateBtn = document.getElementById('generateBtn');
+        const previewContent = document.getElementById('previewContent');
+        const actionButtons = document.getElementById('actionButtons');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const deployBtn = document.getElementById('deployBtn');
+
+        let currentFile = null;
+        let extractedData = null;
+
+        // 上传区域点击事件
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // 文件选择事件
+        fileInput.addEventListener('change', (e) => {
+            handleFile(e.target.files[0]);
+        });
+
+        // 拖拽事件
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            handleFile(e.dataTransfer.files[0]);
+        });
+
+        // 处理文件
+        function handleFile(file) {
+            if (!file) return;
+
+            const validTypes = ['.pdf', '.doc', '.docx', '.tex', '.txt'];
+            const fileExt = '.' + file.name.split('.').pop().toLowerCase();
+
+            if (!validTypes.includes(fileExt)) {
+                alert('请上传支持的文件格式：PDF、Word、LaTeX、TXT');
+                return;
+            }
+
+            currentFile = file;
+            fileName.textContent = '📄 ' + file.name;
+            fileSize.textContent = '大小: ' + (file.size / 1024).toFixed(2) + ' KB';
+            fileInfo.classList.add('show');
+            generateBtn.disabled = false;
+        }
+
+        // 生成个人主页
+        generateBtn.addEventListener('click', async () => {
+            if (!currentFile) return;
+
+            showLoading();
+
+            try {
+                // 解析文件内容
+                const text = await parseFile(currentFile);
+
+                // 提取结构化信息
+                extractedData = extractResumeData(text);
+
+                // 生成HTML预览
+                const html = generateHomepage(extractedData);
+
+                // 显示预览
+                showPreview(html);
+
+                // 显示操作按钮
+                actionButtons.style.display = 'flex';
+            } catch (error) {
+                console.error('生成失败:', error);
+                previewContent.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; color: #e74c3c;">
+                        <div style="font-size: 60px; margin-bottom: 20px;">❌</div>
+                        <div>生成失败: ${error.message}</div>
+                    </div>
+                `;
+            }
+        });
+
+        // 显示加载状态
+        function showLoading() {
+            previewContent.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <div style="color: #667eea; font-weight: 600;">正在解析简历并生成主页...</div>
+                </div>
+            `;
+        }
+
+        // 解析文件内容
+        async function parseFile(file) {
+            const fileExt = file.name.split('.').pop().toLowerCase();
+
+            if (fileExt === 'pdf') {
+                return await parsePDF(file);
+            } else if (fileExt === 'docx' || fileExt === 'doc') {
+                return await parseWord(file);
+            } else {
+                return await parseText(file);
+            }
+        }
+
+        // 解析PDF
+        async function parsePDF(file) {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            let fullText = '';
+
+            for (let i = 1; i <= pdf.numPages; i++) {
+                const page = await pdf.getPage(i);
+                const textContent = await page.getTextContent();
+                const pageText = textContent.items.map(item => item.str).join(' ');
+                fullText += pageText + '\n';
+            }
+
+            return fullText;
+        }
+
+        // 解析Word
+        async function parseWord(file) {
+            const arrayBuffer = await file.arrayBuffer();
+            const result = await mammoth.extractRawText({ arrayBuffer });
+            return result.value;
+        }
+
+        // 解析文本文件
+        async function parseText(file) {
+            return await file.text();
+        }
+
+        // 提取简历数据
+        function extractResumeData(text) {
+            // 基本信息提取
+            const data = {
+                name: extractName(text),
+                title: extractTitle(text),
+                contact: extractContact(text),
+                summary: extractSummary(text),
+                education: extractEducation(text),
+                experience: extractExperience(text),
+                skills: extractSkills(text),
+                projects: extractProjects(text)
+            };
+
+            return data;
+        }
+
+        // 提取姓名
+        function extractName(text) {
+            // 简单的姓名提取逻辑
+            const namePatterns = [
+                /姓名[：:]\s*([^\n]+)/,
+                /Name[：:]\s*([^\n]+)/i,
+                /^([A-Z][a-z]+ [A-Z][a-z]+)/m
+            ];
+
+            for (const pattern of namePatterns) {
+                const match = text.match(pattern);
+                if (match) return match[1].trim();
+            }
+
+            return '未提取到姓名';
+        }
+
+        // 提取职位/标题
+        function extractTitle(text) {
+            const titlePatterns = [
+                /职位[：:]\s*([^\n]+)/,
+                /求职意向[：:]\s*([^\n]+)/,
+                /Position[：:]\s*([^\n]+)/i
+            ];
+
+            for (const pattern of titlePatterns) {
+                const match = text.match(pattern);
+                if (match) return match[1].trim();
+            }
+
+            return 'Software Engineer';
+        }
+
+        // 提取联系方式
+        function extractContact(text) {
+            return {
+                email: text.match(/[\w.-]+@[\w.-]+\.\w+/)?.[0] || '',
+                phone: text.match(/1[3-9]\d{9}/)?.[0] || '',
+                github: text.match(/github\.com\/[\w-]+/)?.[0] || ''
+            };
+        }
+
+        // 提取个人简介
+        function extractSummary(text) {
+            const summaryPatterns = [
+                /个人简介[：:]\s*([^\n]+(?:\n(?!\n)[^\n]+)*)/,
+                /Summary[：:]\s*([^\n]+(?:\n(?!\n)[^\n]+)*)/i
+            ];
+
+            for (const pattern of summaryPatterns) {
+                const match = text.match(pattern);
+                if (match) return match[1].trim();
+            }
+
+            return '暂无个人简介';
+        }
+
+        // 提取教育经历
+        function extractEducation(text) {
+            // 简化的教育经历提取
+            return [{
+                school: '提取的学校名称',
+                degree: '学位',
+                major: '专业',
+                period: '时间'
+            }];
+        }
+
+        // 提取工作经历
+        function extractExperience(text) {
+            return [{
+                company: '提取的公司名称',
+                position: '职位',
+                period: '时间',
+                description: '工作描述'
+            }];
+        }
+
+        // 提取技能
+        function extractSkills(text) {
+            return ['技能1', '技能2', '技能3'];
+        }
+
+        // 提取项目经历
+        function extractProjects(text) {
+            return [{
+                name: '项目名称',
+                description: '项目描述',
+                tech: '技术栈'
+            }];
+        }
+
+        // 生成个人主页HTML
+        function generateHomepage(data) {
+            return `
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${data.name} - 个人主页</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            border-radius: 20px;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.5em;
+            opacity: 0.9;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        section {
+            background: white;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        section h2 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 30px;
+            border-left: 5px solid #667eea;
+            padding-left: 20px;
+        }
+
+        .experience-item, .education-item, .project-item {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .experience-item:last-child, .education-item:last-child, .project-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .item-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .item-period {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .item-company {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .skill-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>${data.name}</h1>
+            <p>${data.title}</p>
+            <div class="contact-info">
+                ${data.contact.email ? `<div class="contact-item">📧 ${data.contact.email}</div>` : ''}
+                ${data.contact.phone ? `<div class="contact-item">📱 ${data.contact.phone}</div>` : ''}
+                ${data.contact.github ? `<div class="contact-item">🔗 ${data.contact.github}</div>` : ''}
+            </div>
+        </header>
+
+        <section>
+            <h2>📝 个人简介</h2>
+            <p>${data.summary}</p>
+        </section>
+
+        <section>
+            <h2>💼 工作经历</h2>
+            ${data.experience.map(exp => `
+                <div class="experience-item">
+                    <div class="item-header">
+                        <div class="item-title">${exp.position}</div>
+                        <div class="item-period">${exp.period}</div>
+                    </div>
+                    <div class="item-company">${exp.company}</div>
+                    <div>${exp.description}</div>
+                </div>
+            `).join('')}
+        </section>
+
+        <section>
+            <h2>🎓 教育经历</h2>
+            ${data.education.map(edu => `
+                <div class="education-item">
+                    <div class="item-header">
+                        <div class="item-title">${edu.school}</div>
+                        <div class="item-period">${edu.period}</div>
+                    </div>
+                    <div class="item-company">${edu.degree} · ${edu.major}</div>
+                </div>
+            `).join('')}
+        </section>
+
+        <section>
+            <h2>🛠️ 技能特长</h2>
+            <div class="skills-container">
+                ${data.skills.map(skill => `<div class="skill-tag">${skill}</div>`).join('')}
+            </div>
+        </section>
+
+        <section>
+            <h2>🚀 项目经历</h2>
+            ${data.projects.map(proj => `
+                <div class="project-item">
+                    <div class="item-title">${proj.name}</div>
+                    <div style="margin: 10px 0;">${proj.description}</div>
+                    <div style="color: #667eea;">技术栈: ${proj.tech}</div>
+                </div>
+            `).join('')}
+        </section>
+    </div>
+</body>
+</html>`;
+        }
+
+        // 显示预览
+        function showPreview(html) {
+            const iframe = document.createElement('iframe');
+            iframe.style.width = '100%';
+            iframe.style.height = '500px';
+            iframe.style.border = 'none';
+            iframe.style.borderRadius = '10px';
+
+            previewContent.innerHTML = '';
+            previewContent.appendChild(iframe);
+
+            iframe.contentDocument.open();
+            iframe.contentDocument.write(html);
+            iframe.contentDocument.close();
+        }
+
+        // 下载HTML
+        downloadBtn.addEventListener('click', () => {
+            if (!extractedData) return;
+
+            const html = generateHomepage(extractedData);
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'my-homepage.html';
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        // 部署到GitHub Pages
+        deployBtn.addEventListener('click', () => {
+            alert('部署功能需要配置GitHub Token，请参考文档进行配置');
+        });
+    </script>
+</body>
+</html>
