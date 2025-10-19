@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>免费在线工具集 - 简历转换、作品集生成</title>
+    <meta name="description" content="专业的在线工具集：简历转个人主页、作品集生成器、智能简历转换。零代码、免费使用、即时生成。">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* 头部 */
+        .header {
+            text-align: center;
+            color: white;
+            padding: 60px 20px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .header h1 {
+            font-size: 4em;
+            margin-bottom: 25px;
+            font-weight: 700;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+        }
+
+        .header .tagline {
+            font-size: 1.8em;
+            opacity: 0.95;
+            margin-bottom: 15px;
+        }
+
+        .header .description {
+            font-size: 1.3em;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* 统计信息 */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin: 50px 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        /* 工具卡片 */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 35px;
+            margin: 50px 0;
+        }
+
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tool-card {
+            background: white;
+            border-radius: 25px;
+            padding: 45px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(102, 126, 234, 0.4);
+        }
+
+        .tool-icon {
+            font-size: 80px;
+            margin-bottom: 25px;
+            display: block;
+        }
+
+        .tool-title {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .tool-description {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            font-size: 1.1em;
+        }
+
+        .tool-features {
+            list-style: none;
+            margin: 25px 0;
+            padding: 0;
+        }
+
+        .tool-features li {
+            padding: 12px 0;
+            color: #555;
+            font-size: 1.05em;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .tool-features li:last-child {
+            border-bottom: none;
+        }
+
+        .tool-features li::before {
+            content: '✅ ';
+            margin-right: 10px;
+        }
+
+        .tool-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 25px 0;
+        }
+
+        .tag {
+            background: #f0f2ff;
+            color: #667eea;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+        }
+
+        /* 特色功能 */
+        .highlights {
+            background: white;
+            border-radius: 25px;
+            padding: 50px;
+            margin: 60px 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .highlights h2 {
+            text-align: center;
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 50px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .highlights h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+        }
+
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 35px;
+        }
+
+        .highlight-item {
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .highlight-item:hover {
+            background: #f8f9ff;
+            transform: scale(1.05);
+        }
+
+        .highlight-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .highlight-title {
+            font-size: 1.4em;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .highlight-text {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* 页脚 */
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 50px 20px;
+            margin-top: 80px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+        }
+
+        .footer-link:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+
+        /* 动画 */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tools-grid {
+            animation: fadeInUp 0.8s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <div class="header">
+            <h1>🚀 免费在线工具集</h1>
+            <p class="tagline">专业的简历转换与作品集生成工具</p>
+            <p class="description">零代码、免费使用、即时生成。帮助你快速创建专业的个人主页和作品集网站</p>
+        </div>
+
+        <!-- 统计信息 -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">实用工具</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">免费使用</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">0</div>
+                <div class="stat-label">代码要求</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">使用次数</div>
+            </div>
+        </div>
+
+        <!-- 工具列表 -->
+        <div class="tools-grid">
+            <!-- 工具1: 简历转个人主页 -->
+            <div class="tool-card">
+                <span class="tool-icon">📄➡️🌐</span>
+                <h2 class="tool-title">简历转个人主页</h2>
+                <p class="tool-description">
+                    上传简历文件，AI自动解析并生成精美的个人主页。支持PDF、Word、LaTeX等多种格式。
+                </p>
+                <ul class="tool-features">
+                    <li>多格式简历解析</li>
+                    <li>智能信息提取</li>
+                    <li>实时预览效果</li>
+                    <li>一键下载HTML</li>
+                </ul>
+                <div class="tool-tags">
+                    <span class="tag">PDF解析</span>
+                    <span class="tag">Word解析</span>
+                    <span class="tag">AI提取</span>
+                </div>
+                <a href="./resume-to-homepage.html" class="btn">🚀 立即使用</a>
+            </div>
+
+            <!-- 工具2: 智能简历转换 Pro -->
+            <div class="tool-card">
+                <span class="tool-icon">🎨</span>
+                <h2 class="tool-title">智能简历转换 Pro</h2>
+                <p class="tool-description">
+                    升级版简历转换工具，支持上传简历或手动填写，双模式自由切换，更智能更灵活。
+                </p>
+                <ul class="tool-features">
+                    <li>双输入模式：上传+手动</li>
+                    <li>选项卡式界面</li>
+                    <li>增强的信息提取</li>
+                    <li>多种导出方式</li>
+                </ul>
+                <div class="tool-tags">
+                    <span class="tag">Pro版</span>
+                    <span class="tag">双模式</span>
+                    <span class="tag">增强功能</span>
+                </div>
+                <a href="./resume-builder-pro.html" class="btn">✨ 立即使用</a>
+            </div>
+
+            <!-- 工具3: 作品集生成器 -->
+            <div class="tool-card">
+                <span class="tool-icon">🏆</span>
+                <h2 class="tool-title">作品集生成器</h2>
+                <p class="tool-description">
+                    专业的产品/项目作品集网站生成工具。可视化编辑，多模板选择，完美展示你的作品。
+                </p>
+                <ul class="tool-features">
+                    <li>项目管理：添加/编辑/删除</li>
+                    <li>多种精美模板</li>
+                    <li>技术栈标签展示</li>
+                    <li>演示链接支持</li>
+                </ul>
+                <div class="tool-tags">
+                    <span class="tag">作品集</span>
+                    <span class="tag">可视化</span>
+                    <span class="tag">多模板</span>
+                </div>
+                <a href="./portfolio-builder.html" class="btn">🎯 立即使用</a>
+            </div>
+        </div>
+
+        <!-- 特色功能 -->
+        <div class="highlights">
+            <h2>为什么选择我们的工具？</h2>
+            <div class="highlights-grid">
+                <div class="highlight-item">
+                    <div class="highlight-icon">⚡</div>
+                    <div class="highlight-title">即时生成</div>
+                    <div class="highlight-text">无需等待，实时预览，一键下载，快速部署</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">🎨</div>
+                    <div class="highlight-title">专业设计</div>
+                    <div class="highlight-text">设计师级别的精美模板，响应式布局</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">🔒</div>
+                    <div class="highlight-title">隐私安全</div>
+                    <div class="highlight-text">所有处理在浏览器本地完成，不上传服务器</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">💰</div>
+                    <div class="highlight-title">完全免费</div>
+                    <div class="highlight-text">所有功能永久免费，无限次使用</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">📱</div>
+                    <div class="highlight-title">响应式</div>
+                    <div class="highlight-text">完美适配PC、平板、手机等所有设备</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">🚀</div>
+                    <div class="highlight-title">快速部署</div>
+                    <div class="highlight-text">生成的HTML可直接部署到任何平台</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 使用场景 -->
+        <div class="highlights" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white;">
+            <h2 style="color: white;">适用场景</h2>
+            <div class="highlights-grid">
+                <div class="highlight-item">
+                    <div class="highlight-icon">💼</div>
+                    <div class="highlight-title" style="color: white;">求职者</div>
+                    <div class="highlight-text" style="color: rgba(255,255,255,0.9);">快速创建专业简历网站，提升求职竞争力</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">🎓</div>
+                    <div class="highlight-title" style="color: white;">学生</div>
+                    <div class="highlight-text" style="color: rgba(255,255,255,0.9);">展示学术成果、项目经历、获奖情况</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">💻</div>
+                    <div class="highlight-title" style="color: white;">开发者</div>
+                    <div class="highlight-text" style="color: rgba(255,255,255,0.9);">展示开源项目、技术博客、代码作品</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">🎭</div>
+                    <div class="highlight-title" style="color: white;">设计师</div>
+                    <div class="highlight-text" style="color: rgba(255,255,255,0.9);">展示设计作品集、案例研究、创意项目</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">🚀</div>
+                    <div class="highlight-title" style="color: white;">创业者</div>
+                    <div class="highlight-text" style="color: rgba(255,255,255,0.9);">展示创业项目、产品演示、商业成就</div>
+                </div>
+                <div class="highlight-item">
+                    <div class="highlight-icon">🌟</div>
+                    <div class="highlight-title" style="color: white;">自由职业者</div>
+                    <div class="highlight-text" style="color: rgba(255,255,255,0.9);">展示服务案例、客户评价、专业技能</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="footer">
+            <div class="footer-links">
+                <a href="https://wanghongsheng01.github.io/" class="footer-link">🏠 首页</a>
+                <a href="https://github.com/wanghongsheng01" class="footer-link">💻 GitHub</a>
+                <a href="#" class="footer-link">📧 联系我们</a>
+            </div>
+            <p style="opacity: 0.8; font-size: 1.1em;">
+                © 2025 免费在线工具集. 保留所有权利.
+            </p>
+            <p style="opacity: 0.7; margin-top: 15px;">
+                Made with ❤️ by Claude Code
+            </p>
+        </div>
+    </div>
+</body>
+</html>
