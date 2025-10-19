@@ -16,7 +16,6 @@
             --primary-color: #667eea;
             --secondary-color: #764ba2;
             --accent-color: #EE7F2D;
-            --success-color: #10b981;
             --light-bg: #f8f9fa;
             --card-bg: #ffffff;
             --text-primary: #2c3e50;
@@ -59,148 +58,6 @@
         header p {
             font-size: 1.2rem;
             opacity: 0.95;
-        }
-
-        /* File Upload Section */
-        .upload-section {
-            background: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--box-shadow);
-        }
-
-        .upload-section h2 {
-            color: var(--primary-color);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .file-upload-area {
-            border: 3px dashed var(--primary-color);
-            border-radius: var(--border-radius);
-            padding: 3rem 2rem;
-            text-align: center;
-            cursor: pointer;
-            transition: var(--transition);
-            background: rgba(102, 126, 234, 0.05);
-            margin-bottom: 1.5rem;
-        }
-
-        .file-upload-area:hover {
-            background: rgba(102, 126, 234, 0.1);
-            border-color: var(--secondary-color);
-            transform: scale(1.02);
-        }
-
-        .file-upload-area.dragover {
-            background: rgba(102, 126, 234, 0.15);
-            border-color: var(--accent-color);
-        }
-
-        .upload-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            color: var(--primary-color);
-        }
-
-        .upload-text {
-            font-size: 1.2rem;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .upload-hint {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .file-input {
-            display: none;
-        }
-
-        .uploaded-file-info {
-            background: var(--light-bg);
-            padding: 1rem;
-            border-radius: 8px;
-            display: none;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .uploaded-file-info.show {
-            display: flex;
-        }
-
-        .file-icon {
-            font-size: 2rem;
-        }
-
-        .file-details {
-            flex: 1;
-        }
-
-        .file-name {
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .file-size {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .remove-file-btn {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .remove-file-btn:hover {
-            background: #c82333;
-        }
-
-        /* Convert Button */
-        .convert-section {
-            text-align: center;
-            margin: 2rem 0;
-        }
-
-        .convert-btn {
-            background: linear-gradient(135deg, var(--success-color) 0%, #059669 100%);
-            color: white;
-            border: none;
-            padding: 1.25rem 3rem;
-            font-size: 1.2rem;
-            font-weight: 700;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: var(--transition);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .convert-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
-        }
-
-        .convert-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .convert-btn .icon {
-            font-size: 1.5rem;
         }
 
         /* Main Layout */
@@ -334,6 +191,31 @@
             display: flex;
             gap: 1rem;
             margin-top: 1.5rem;
+        }
+
+        /* File Upload */
+        .file-upload {
+            border: 2px dashed var(--primary-color);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .file-upload:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: var(--secondary-color);
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .file-upload-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
         }
 
         /* Preview Section */
@@ -539,12 +421,6 @@
             border: 1px solid #bee5eb;
         }
 
-        .alert-warning {
-            background: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
-        }
-
         /* Loading */
         .loading {
             text-align: center;
@@ -566,88 +442,16 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
-        /* Processing Overlay */
-        .processing-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        .processing-overlay.show {
-            display: flex;
-        }
-
-        .processing-content {
-            background: white;
-            padding: 3rem;
-            border-radius: var(--border-radius);
-            text-align: center;
-            max-width: 400px;
-        }
-
-        .processing-spinner {
-            border: 4px solid var(--light-bg);
-            border-top: 4px solid var(--primary-color);
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1.5rem;
-        }
-
-        .processing-text {
-            font-size: 1.2rem;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
     </style>
 </head>
 <body>
     <div class="app-container">
         <header>
             <h1>📄 在线简历和作品集制作工具</h1>
-            <p>免费创建专业的个人简历和作品集网站 | 支持上传简历解析、在线编辑和PDF导出</p>
+            <p>免费创建专业的个人简历和作品集网站 | 支持在线编辑和PDF导出</p>
         </header>
 
         <div id="alert-container"></div>
-
-        <!-- File Upload Section -->
-        <div class="upload-section">
-            <h2>📤 上传已有简历（可选）</h2>
-            <div class="file-upload-area" id="file-upload-area" onclick="document.getElementById('resume-file-input').click()">
-                <div class="upload-icon">📁</div>
-                <div class="upload-text">点击上传或拖拽文件到此处</div>
-                <div class="upload-hint">支持 PDF、Word、TXT 格式，最大10MB</div>
-            </div>
-            <input type="file" id="resume-file-input" class="file-input" accept=".pdf,.doc,.docx,.txt" onchange="handleFileSelect(event)">
-
-            <div class="uploaded-file-info" id="uploaded-file-info">
-                <div class="file-icon">📄</div>
-                <div class="file-details">
-                    <div class="file-name" id="file-name">文件名.pdf</div>
-                    <div class="file-size" id="file-size">1.5 MB</div>
-                </div>
-                <button class="remove-file-btn" onclick="removeFile()">删除</button>
-            </div>
-
-            <div class="convert-section">
-                <button class="convert-btn" id="convert-btn" onclick="startConversion()" disabled>
-                    <span class="icon">🔄</span>
-                    <span>开始转换简历</span>
-                </button>
-                <div style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
-                    <p>💡 提示：上传简历后点击"开始转换"自动解析，或直接手动填写信息</p>
-                </div>
-            </div>
-        </div>
 
         <div class="tabs">
             <div class="tab active" data-tab="create">✏️ 创建简历</div>
@@ -826,7 +630,7 @@
                 <!-- Preview content will be generated here -->
                 <div class="loading">
                     <div class="spinner"></div>
-                    <p>请先填写基本信息并保存，或上传简历并点击"开始转换"...</p>
+                    <p>请先填写基本信息并保存...</p>
                 </div>
             </div>
 
@@ -834,17 +638,6 @@
                 <button class="btn btn-primary" onclick="refreshPreview()">🔄 刷新预览</button>
                 <button class="btn btn-secondary" onclick="exportToPDF()">📥 导出PDF</button>
                 <button class="btn btn-outline" onclick="downloadHTML()">💾 下载HTML</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Processing Overlay -->
-    <div class="processing-overlay" id="processing-overlay">
-        <div class="processing-content">
-            <div class="processing-spinner"></div>
-            <div class="processing-text">正在解析简历...</div>
-            <div style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
-                请稍候，这可能需要几秒钟
             </div>
         </div>
     </div>
@@ -860,257 +653,6 @@
             },
             portfolio: []
         };
-
-        let uploadedFile = null;
-
-        // Drag and drop handlers
-        const fileUploadArea = document.getElementById('file-upload-area');
-
-        fileUploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            fileUploadArea.classList.add('dragover');
-        });
-
-        fileUploadArea.addEventListener('dragleave', () => {
-            fileUploadArea.classList.remove('dragover');
-        });
-
-        fileUploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            fileUploadArea.classList.remove('dragover');
-
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                handleFileSelect({ target: { files: files } });
-            }
-        });
-
-        // File handling
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            // Check file size (max 10MB)
-            if (file.size > 10 * 1024 * 1024) {
-                showAlert('文件大小不能超过10MB', 'warning');
-                return;
-            }
-
-            // Check file type
-            const allowedTypes = [
-                'application/pdf',
-                'application/msword',
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                'text/plain'
-            ];
-
-            if (!allowedTypes.includes(file.type)) {
-                showAlert('不支持的文件格式，请上传PDF、Word或TXT文件', 'warning');
-                return;
-            }
-
-            uploadedFile = file;
-
-            // Display file info
-            document.getElementById('file-name').textContent = file.name;
-            document.getElementById('file-size').textContent = formatFileSize(file.size);
-            document.getElementById('uploaded-file-info').classList.add('show');
-            document.getElementById('convert-btn').disabled = false;
-
-            showAlert('文件上传成功！点击"开始转换"解析简历内容', 'success');
-        }
-
-        function removeFile() {
-            uploadedFile = null;
-            document.getElementById('resume-file-input').value = '';
-            document.getElementById('uploaded-file-info').classList.remove('show');
-            document.getElementById('convert-btn').disabled = true;
-            showAlert('文件已移除', 'info');
-        }
-
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
-        }
-
-        // File parsing and conversion
-        async function startConversion() {
-            if (!uploadedFile) {
-                showAlert('请先上传文件', 'warning');
-                return;
-            }
-
-            // Show processing overlay
-            document.getElementById('processing-overlay').classList.add('show');
-
-            try {
-                // Read file content
-                const text = await readFileContent(uploadedFile);
-
-                // Parse resume content
-                const parsedData = parseResumeText(text);
-
-                // Fill form with parsed data
-                populateFormWithParsedData(parsedData);
-
-                // Save data
-                saveResumeData();
-
-                // Switch to preview tab
-                setTimeout(() => {
-                    document.getElementById('processing-overlay').classList.remove('show');
-                    showAlert('简历解析成功！已自动填充表单，请查看并确认信息', 'success');
-
-                    // Switch to create tab to show filled data
-                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                    document.querySelector('[data-tab="create"]').classList.add('active');
-                    document.getElementById('create-tab').classList.add('active');
-                }, 1500);
-
-            } catch (error) {
-                document.getElementById('processing-overlay').classList.remove('show');
-                showAlert('文件解析失败，请尝试手动输入或上传其他格式的文件', 'warning');
-                console.error('Parse error:', error);
-            }
-        }
-
-        async function readFileContent(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-
-                reader.onload = (e) => {
-                    if (file.type === 'text/plain') {
-                        resolve(e.target.result);
-                    } else if (file.type === 'application/pdf') {
-                        // For PDF, try to extract text (simplified version)
-                        showAlert('PDF文件已上传，正在尝试提取文本...', 'info');
-                        // In a real implementation, you would use pdf.js or similar library
-                        // For now, we'll provide a simplified extraction
-                        resolve('PDF内容提取功能需要集成PDF解析库。请手动输入信息或上传TXT格式。');
-                    } else {
-                        // For Word files
-                        showAlert('Word文件已上传，正在尝试提取文本...', 'info');
-                        // In a real implementation, you would use mammoth.js or similar library
-                        resolve('Word内容提取功能需要集成Word解析库。请手动输入信息或上传TXT格式。');
-                    }
-                };
-
-                reader.onerror = reject;
-
-                if (file.type === 'text/plain') {
-                    reader.readAsText(file);
-                } else {
-                    reader.readAsArrayBuffer(file);
-                }
-            });
-        }
-
-        function parseResumeText(text) {
-            // Simple regex-based parsing
-            // In a real implementation, you might use NLP or more sophisticated parsing
-
-            const data = {
-                basic: {},
-                experience: {
-                    work: {},
-                    education: {},
-                    skills: []
-                }
-            };
-
-            // Extract name (usually first line or after specific patterns)
-            const nameMatch = text.match(/(?:姓名|Name)[：:]\s*([^\n]+)/i) ||
-                             text.match(/^([A-Z][a-z]+\s+[A-Z][a-z]+)/m) ||
-                             text.match(/^([^\n]{2,20})\n/);
-            if (nameMatch) data.basic.name = nameMatch[1].trim();
-
-            // Extract email
-            const emailMatch = text.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/);
-            if (emailMatch) data.basic.email = emailMatch[1];
-
-            // Extract phone
-            const phoneMatch = text.match(/(?:电话|Tel|Phone)[：:]\s*([\d\s\-+()]+)/i) ||
-                              text.match(/1[3-9]\d{9}/);
-            if (phoneMatch) data.basic.phone = phoneMatch[1].trim();
-
-            // Extract location
-            const locationMatch = text.match(/(?:地址|Address|Location)[：:]\s*([^\n]+)/i);
-            if (locationMatch) data.basic.location = locationMatch[1].trim();
-
-            // Extract work experience
-            const workMatch = text.match(/(?:工作经历|Work Experience|Experience)[：:\s]*\n([^]*?)(?=教育|Education|技能|Skills|项目|Project|\n\n\n|$)/i);
-            if (workMatch) {
-                const workText = workMatch[1];
-                const companyMatch = workText.match(/([^\n]+公司|[^\n]+Corporation|[^\n]+Inc\.)/);
-                if (companyMatch) data.experience.work.company = companyMatch[1].trim();
-
-                const titleMatch = workText.match(/(?:职位|Position|Title)[：:]\s*([^\n]+)/i);
-                if (titleMatch) data.experience.work.title = titleMatch[1].trim();
-
-                data.experience.work.description = workText.substring(0, 200).trim();
-            }
-
-            // Extract education
-            const eduMatch = text.match(/(?:教育背景|Education)[：:\s]*\n([^]*?)(?=工作|Work|技能|Skills|项目|Project|\n\n\n|$)/i);
-            if (eduMatch) {
-                const eduText = eduMatch[1];
-                const schoolMatch = eduText.match(/([^\n]+大学|[^\n]+University|[^\n]+College|[^\n]+学院)/);
-                if (schoolMatch) data.experience.education.school = schoolMatch[1].trim();
-
-                const degreeMatch = eduText.match(/(?:学位|Degree)[：:]\s*([^\n]+)/i) ||
-                                  eduText.match(/(学士|硕士|博士|Bachelor|Master|PhD)/);
-                if (degreeMatch) data.experience.education.degree = degreeMatch[1].trim();
-            }
-
-            // Extract skills
-            const skillsMatch = text.match(/(?:技能|Skills)[：:\s]*\n([^]*?)(?=工作|Work|教育|Education|项目|Project|\n\n\n|$)/i);
-            if (skillsMatch) {
-                const skillsText = skillsMatch[1];
-                // Split by common delimiters
-                const skills = skillsText.split(/[,，、；;|\n]/).map(s => s.trim()).filter(s => s && s.length < 30);
-                data.experience.skills = skills.slice(0, 10); // Limit to 10 skills
-            }
-
-            // Extract summary
-            const summaryMatch = text.match(/(?:个人简介|Summary|Profile|About)[：:\s]*\n([^]*?)(?=工作|Work|教育|Education|技能|Skills|\n\n\n|$)/i);
-            if (summaryMatch) {
-                data.basic.summary = summaryMatch[1].substring(0, 300).trim();
-            }
-
-            return data;
-        }
-
-        function populateFormWithParsedData(data) {
-            // Basic info
-            if (data.basic.name) document.getElementById('name').value = data.basic.name;
-            if (data.basic.email) document.getElementById('email').value = data.basic.email;
-            if (data.basic.phone) document.getElementById('phone').value = data.basic.phone;
-            if (data.basic.location) document.getElementById('location').value = data.basic.location;
-            if (data.basic.summary) document.getElementById('summary').value = data.basic.summary;
-
-            // Work experience
-            if (data.experience.work.title) document.getElementById('work-title').value = data.experience.work.title;
-            if (data.experience.work.company) document.getElementById('company').value = data.experience.work.company;
-            if (data.experience.work.description) document.getElementById('work-description').value = data.experience.work.description;
-
-            // Education
-            if (data.experience.education.degree) document.getElementById('degree').value = data.experience.education.degree;
-            if (data.experience.education.school) document.getElementById('school').value = data.experience.education.school;
-
-            // Skills
-            if (data.experience.skills && data.experience.skills.length > 0) {
-                document.getElementById('skills').value = data.experience.skills.join(', ');
-            }
-
-            // If we extracted a job title, use it
-            if (data.experience.work.title && !document.getElementById('title').value) {
-                document.getElementById('title').value = data.experience.work.title;
-            }
-        }
 
         // Load saved data from localStorage
         function loadSavedData() {
@@ -1259,7 +801,7 @@
             const data = resumeData;
 
             if (!data.basic.name) {
-                preview.innerHTML = '<div class="loading"><div class="spinner"></div><p>请先填写基本信息并保存，或上传简历并点击"开始转换"...</p></div>';
+                preview.innerHTML = '<div class="loading"><div class="spinner"></div><p>请先填写基本信息并保存...</p></div>';
                 return;
             }
 
@@ -1357,7 +899,7 @@
 
         // Export to PDF (Placeholder - requires a PDF library)
         function exportToPDF() {
-            showAlert('PDF导出功能：您可以使用浏览器的打印功能（Ctrl+P / Cmd+P）选择"另存为PDF"来导出简历', 'info');
+            showAlert('PDF导出功能开发中...您可以使用浏览器的打印功能（Ctrl+P / Cmd+P）选择"另存为PDF"来导出简历', 'info');
 
             // Open print dialog
             setTimeout(() => {
@@ -1431,7 +973,7 @@
 
             setTimeout(() => {
                 alert.remove();
-            }, 5000);
+            }, 3000);
         }
 
         // Tab switching
@@ -1457,7 +999,7 @@
         // Initialize
         window.addEventListener('DOMContentLoaded', () => {
             loadSavedData();
-            showAlert('欢迎使用在线简历和作品集制作工具！上传简历自动解析，或手动填写信息开始创建！', 'success');
+            showAlert('欢迎使用在线简历和作品集制作工具！开始创建您的专业简历吧！', 'success');
         });
     </script>
 </body>
