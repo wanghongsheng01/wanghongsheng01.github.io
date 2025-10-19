@@ -1,0 +1,15 @@
+# robots.txt for wanghongsheng01.github.io
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://wanghongsheng01.github.io/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
+
+# Disallow temporary or test files
+Disallow: /test-*
+Disallow: /*.bak$
+Disallow: /*.tmp$
