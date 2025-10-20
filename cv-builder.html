@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV-Builder - LaTeX简历格式转换器</title>
+    <meta name="description" content="自动将LaTeX简历从一种模板格式转换为另一种模板格式">
+    <link rel="stylesheet" href="jemdoc.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 30px;
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .content {
+            padding: 60px 40px;
+        }
+
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102,126,234,0.3);
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-icon {
+            font-size: 1.8rem;
+        }
+
+        .screenshot {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            margin: 30px 0;
+        }
+
+        .tech-stack {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .tech-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+
+        .cta-section h2 {
+            color: white;
+            border: none;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 25px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+
+        .installation-steps {
+            counter-reset: step-counter;
+            list-style: none;
+        }
+
+        .installation-steps li {
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 30px;
+        }
+
+        .installation-steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        footer {
+            background: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            .content {
+                padding: 40px 20px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 CV-Builder</h1>
+            <p>LaTeX简历格式转换器 - 智能转换不同LaTeX模板格式</p>
+            <div class="badges">
+                <span class="badge">⚡ FastAPI后端</span>
+                <span class="badge">⚛️ React前端</span>
+                <span class="badge">🎨 现代化UI</span>
+                <span class="badge">🚀 高性能</span>
+            </div>
+        </header>
+
+        <div class="content">
+            <!-- 项目概述 -->
+            <div class="section">
+                <h2>📖 项目概述</h2>
+                <p style="font-size: 1.1rem; line-height: 1.8;">
+                    CV-Builder是一个全栈Web应用，能够智能地将LaTeX简历从一种模板格式转换为另一种模板格式。
+                    无需手动重新排版，系统自动提取简历内容并适配到新模板，大大提高了简历制作效率。
+                </p>
+            </div>
+
+            <!-- 核心功能 -->
+            <div class="section">
+                <h2>✨ 核心功能</h2>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h3><span class="feature-icon">📤</span>文件上传</h3>
+                        <p>支持拖拽或点击上传LaTeX简历ZIP文件和目标模板ZIP文件</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3><span class="feature-icon">🔄</span>自动转换</h3>
+                        <p>智能解析LaTeX内容，自动提取姓名、邮箱、经历等信息</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3><span class="feature-icon">🎯</span>格式适配</h3>
+                        <p>将提取的内容智能映射到目标模板的对应位置</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3><span class="feature-icon">💾</span>一键下载</h3>
+                        <p>转换完成后立即下载新格式的LaTeX简历ZIP文件</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3><span class="feature-icon">📊</span>实时进度</h3>
+                        <p>转换过程中显示实时进度条，体验流畅</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3><span class="feature-icon">🎨</span>简约UI</h3>
+                        <p>现代化渐变设计，响应式布局，支持移动端</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 技术栈 -->
+            <div class="section">
+                <h2>🛠️ 技术栈</h2>
+                <h3 style="color: #764ba2; margin-top: 30px; margin-bottom: 15px;">后端技术</h3>
+                <div class="tech-stack">
+                    <span class="tech-tag">FastAPI</span>
+                    <span class="tech-tag">Python 3.9+</span>
+                    <span class="tech-tag">uv包管理</span>
+                    <span class="tech-tag">异步处理</span>
+                    <span class="tech-tag">正则解析</span>
+                </div>
+
+                <h3 style="color: #764ba2; margin-top: 30px; margin-bottom: 15px;">前端技术</h3>
+                <div class="tech-stack">
+                    <span class="tech-tag">React 18+</span>
+                    <span class="tech-tag">TypeScript</span>
+                    <span class="tech-tag">Vite</span>
+                    <span class="tech-tag">CSS3动画</span>
+                    <span class="tech-tag">响应式设计</span>
+                </div>
+            </div>
+
+            <!-- 安装使用 -->
+            <div class="section">
+                <h2>🚀 快速开始</h2>
+
+                <h3 style="color: #764ba2; margin-top: 30px; margin-bottom: 20px;">📥 克隆项目</h3>
+                <div class="code-block">
+git clone https://github.com/wanghongsheng01/cv-builder.git
+cd cv-builder
+                </div>
+
+                <h3 style="color: #764ba2; margin-top: 40px; margin-bottom: 20px;">⚙️ 后端安装</h3>
+                <ol class="installation-steps">
+                    <li>
+                        <strong>安装依赖</strong>
+                        <div class="code-block" style="margin-top: 10px;">
+cd backend
+uv sync
+                        </div>
+                    </li>
+                    <li>
+                        <strong>启动后端服务</strong>
+                        <div class="code-block" style="margin-top: 10px;">
+uv run python src/app.py --port 8000
+                        </div>
+                        <p style="margin-top: 10px; color: #666;">后端API将运行在 <code>http://localhost:8000</code></p>
+                    </li>
+                </ol>
+
+                <h3 style="color: #764ba2; margin-top: 40px; margin-bottom: 20px;">🎨 前端安装</h3>
+                <ol class="installation-steps">
+                    <li>
+                        <strong>安装依赖</strong>
+                        <div class="code-block" style="margin-top: 10px;">
+cd frontend
+npm install
+                        </div>
+                    </li>
+                    <li>
+                        <strong>启动开发服务器</strong>
+                        <div class="code-block" style="margin-top: 10px;">
+npm run dev
+                        </div>
+                        <p style="margin-top: 10px; color: #666;">前端应用将运行在 <code>http://localhost:5173</code></p>
+                    </li>
+                </ol>
+            </div>
+
+            <!-- 使用说明 -->
+            <div class="section">
+                <h2>📝 使用说明</h2>
+                <ol class="installation-steps">
+                    <li>
+                        <strong>上传源简历</strong>
+                        <p>点击"Upload Source Resume"区域，选择你的A类型LaTeX简历ZIP文件</p>
+                    </li>
+                    <li>
+                        <strong>上传目标模板</strong>
+                        <p>点击"Upload Target Template"区域，选择你想要转换成的B类型LaTeX模板ZIP文件</p>
+                    </li>
+                    <li>
+                        <strong>开始转换</strong>
+                        <p>点击"Convert"按钮，系统将自动处理并显示转换进度</p>
+                    </li>
+                    <li>
+                        <strong>下载结果</strong>
+                        <p>转换完成后，点击"Download Result"按钮下载新格式的简历ZIP文件</p>
+                    </li>
+                </ol>
+            </div>
+
+            <!-- API文档 -->
+            <div class="section">
+                <h2>🔌 API接口</h2>
+
+                <h3 style="color: #764ba2; margin-top: 30px; margin-bottom: 20px;">POST /api/convert</h3>
+                <p><strong>功能：</strong>转换LaTeX简历格式</p>
+                <div class="code-block">
+curl -X POST "http://localhost:8000/api/convert" \
+  -F "source_file=@source_resume.zip" \
+  -F "template_file=@target_template.zip"
+                </div>
+
+                <h3 style="color: #764ba2; margin-top: 30px; margin-bottom: 20px;">GET /api/download/{task_id}</h3>
+                <p><strong>功能：</strong>下载转换后的文件</p>
+                <div class="code-block">
+curl -X GET "http://localhost:8000/api/download/&lt;task_id&gt;" -o converted_resume.zip
+                </div>
+            </div>
+
+            <!-- CTA区域 -->
+            <div class="cta-section">
+                <h2>🎉 立即体验</h2>
+                <p style="font-size: 1.2rem; opacity: 0.95;">
+                    开源免费，助您高效制作专业简历
+                </p>
+                <div class="cta-buttons">
+                    <a href="https://github.com/wanghongsheng01/cv-builder" class="btn btn-primary" target="_blank">
+                        📦 GitHub仓库
+                    </a>
+                    <a href="https://github.com/wanghongsheng01/cv-builder#readme" class="btn btn-secondary" target="_blank">
+                        📖 完整文档
+                    </a>
+                </div>
+            </div>
+
+            <!-- 项目特点 -->
+            <div class="section">
+                <h2>🌟 项目亮点</h2>
+                <ul style="font-size: 1.1rem; line-height: 2; padding-left: 30px;">
+                    <li>✅ <strong>智能解析</strong>：自动识别LaTeX命令，准确提取简历内容</li>
+                    <li>✅ <strong>灵活映射</strong>：支持多种LaTeX模板格式的相互转换</li>
+                    <li>✅ <strong>完整保留</strong>：保持原简历的内容和格式，仅改变模板样式</li>
+                    <li>✅ <strong>高性能</strong>：FastAPI异步处理，转换速度快</li>
+                    <li>✅ <strong>易于使用</strong>：简洁的Web界面，无需命令行操作</li>
+                    <li>✅ <strong>开源免费</strong>：MIT许可证，欢迎贡献和改进</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p>Made with ❤️ using FastAPI + React</p>
+            <p style="margin-top: 10px;">
+                <a href="https://github.com/wanghongsheng01/cv-builder" style="color: #667eea; text-decoration: none;">
+                    GitHub
+                </a> |
+                <a href="index.html" style="color: #667eea; text-decoration: none;">
+                    返回主页
+                </a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
