@@ -669,6 +669,22 @@
         .subtitle { font-size: 1.5em; opacity: 0.95; margin-bottom: 25px; }
         .contact-info { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 25px; }
         .contact-item { display: flex; align-items: center; gap: 10px; font-size: 1.1em; }
+        .portfolio-link {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 25px;
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid white;
+        }
+        .portfolio-link:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
         section {
             background: white;
             padding: 40px;
@@ -736,6 +752,11 @@
             <div class="contact-info">
                 ${data.email ? `<div class="contact-item">📧 ${data.email}</div>` : ''}
                 ${data.phone ? `<div class="contact-item">📱 ${data.phone}</div>` : ''}
+            </div>
+            <div style="text-align: center; margin-top: 25px;">
+                <a href="https://wanghongsheng01.github.io/portfolio.html" target="_blank" class="portfolio-link">
+                    🎨 查看我的作品集展示
+                </a>
             </div>
         </header>
 

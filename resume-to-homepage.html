@@ -683,6 +683,24 @@
             gap: 10px;
         }
 
+        .portfolio-link {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 25px;
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid white;
+        }
+
+        .portfolio-link:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
         section {
             background: white;
             padding: 40px;
@@ -756,6 +774,11 @@
                 ${data.contact.email ? `<div class="contact-item">📧 ${data.contact.email}</div>` : ''}
                 ${data.contact.phone ? `<div class="contact-item">📱 ${data.contact.phone}</div>` : ''}
                 ${data.contact.github ? `<div class="contact-item">🔗 ${data.contact.github}</div>` : ''}
+            </div>
+            <div style="text-align: center; margin-top: 25px;">
+                <a href="https://wanghongsheng01.github.io/portfolio.html" target="_blank" class="portfolio-link">
+                    🎨 查看我的作品集展示
+                </a>
             </div>
         </header>
 
